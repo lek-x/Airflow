@@ -44,8 +44,12 @@ jobs:
       volumes:
         - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
-      - name: DEBUG
-        run: pwd && ls -la
+      - name: Run details
+        run: |
+          echo "Run: $GITHUB_RUN_NUMBER \n"
+          echo "Image Name: ${{ env.image_name }} \n"
+          echo "See full image: ${{ env.image_name }}:$GITHUB_RUN_NUMBER "
+
       - name: Build Docker image
         uses: mr-smithers-excellent/docker-build-push@v6.2
         with:
@@ -60,3 +64,5 @@ jobs:
         uses: anchore/scan-action@v3
         with:
           image: grype  ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
+          registry-username: ${{ secrets.DOCKER_USERNAME }}
+          registry-password: ${{ secrets.DOCKER_PASSWORD }}
