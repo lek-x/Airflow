@@ -66,5 +66,5 @@ jobs:
       - name: Scan image
         uses: anchore/scan-action@v3.3.6
         with:
-          image: grype  ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
+          image: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
           fail-build: false
