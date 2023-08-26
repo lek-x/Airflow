@@ -71,7 +71,7 @@ jobs:
       - name: Scan image
         uses: anchore/scan-action@v3.3.6
         with:
-          image: docker:24.0.5-dind
+          image: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
           fail-build: false
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry-username: ${{ secrets.DOCKER_USERNAME }}
+          registry-password: ${{ secrets.DOCKER_PASSWORD }}
