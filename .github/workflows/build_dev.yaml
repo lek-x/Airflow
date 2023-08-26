@@ -14,10 +14,8 @@ on:
 
 env:
   path_bot: bot_code
-  path_nomad: nomad_code
-  image_name: tgwbot
+  image_name: airflow
   repo: ghcr.io
-  dbport: 5433
   job_environment: dev
 
 
@@ -52,7 +50,7 @@ jobs:
           image: ${{env.image_name}}
           tags: $GITHUB_RUN_NUMBER
           registry: ghcr.io
-          dockerfile: Dockerfile
+          dockerfile: dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
