@@ -68,5 +68,5 @@ jobs:
         with:
           image: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
           fail-build: false
-        registry-username: ${{ secrets.DOCKER_USERNAME }}
-        registry-password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
