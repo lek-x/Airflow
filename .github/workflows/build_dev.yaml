@@ -44,6 +44,8 @@ jobs:
       volumes:
         - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
+      - name: DEBUG
+        run: pwd && ls -la
       - name: Build Docker image
         uses: mr-smithers-excellent/docker-build-push@v6.2
         with:
