@@ -44,7 +44,7 @@ jobs:
     container:
       image: docker:24.0.5-dind
       volumes:
-        - my_docker_volume:/${{ GITHUB_WORKSPACE }}
+        - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
       - name: Build Docker image
         uses: mr-smithers-excellent/docker-build-push@v6.2
