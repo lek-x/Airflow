@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Scan image
-        uses: anchore/scan-action@v3
+        uses: anchore/scan-action@v3.3.6
         with:
           image: grype  ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
           registry-username: ${{ secrets.DOCKER_USERNAME }}
