@@ -105,6 +105,6 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: true
       
-
-
+      - name: Clean
+        run: rm -rf .terraform/
 
