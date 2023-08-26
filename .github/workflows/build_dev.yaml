@@ -75,3 +75,25 @@ jobs:
           fail-build: false
           registry-username: ${{ secrets.DOCKER_USERNAME }}
           registry-password: ${{ secrets.DOCKER_PASSWORD }}
+
+  Run-terraform:
+    needs: [Checkout_repos]
+    runs-on:
+      - self-hosted
+    container:
+      image: docker pull hashicorp/terraform:latest
+      env:
+        do_token: ${{ secrets.DO_TOKEN }}
+      volumes:
+        - my_docker_volume:/$GITHUB_WORKSPACE
+    steps:
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+

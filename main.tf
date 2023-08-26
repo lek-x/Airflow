@@ -24,11 +24,11 @@ resource "digitalocean_ssh_key" "default" {
 ### Create new VM
 resource "digitalocean_droplet" "VM1" {
   image    = local.image
-  name     = "wg"
+  name     = "TEST"
   region   = local.region
   size     = "s-1vcpu-1gb"
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-  tags     = ["wg"]
+  tags     = ["TEST"]
 
 }
 
