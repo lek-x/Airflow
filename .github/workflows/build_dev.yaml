@@ -77,7 +77,7 @@ jobs:
           registry-password: ${{ secrets.DOCKER_PASSWORD }}
 
   Run-terraform:
-    needs: [Checkout_repos]
+    needs: [Scan]
     runs-on:
       - self-hosted
     container:
