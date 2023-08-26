@@ -67,6 +67,7 @@ jobs:
     needs: [Build-docker-Airflow]
     runs-on:
       - self-hosted
+    steps:
       - name: Scan image
         uses: anchore/scan-action@v3.3.6
         with:
