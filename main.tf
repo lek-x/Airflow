@@ -5,11 +5,6 @@ locals {
   image        = (var.image == "ubuntu" ? "ubuntu-22-10-x64" : "rockylinux-9-x64")
 }
 
-
-provider "digitalocean" {
-  token = var.do_token
-}
-
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
   rsa_bits  = 4096

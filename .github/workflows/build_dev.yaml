@@ -83,7 +83,7 @@ jobs:
     container:
       image: hashicorp/terraform:latest
       env:
-        do_token: ${{ secrets.DO_TOKEN }}
+        DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
       volumes:
         - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
