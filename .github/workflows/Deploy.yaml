@@ -72,8 +72,6 @@ jobs:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
-      volumes:
-        - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
@@ -112,3 +110,32 @@ jobs:
           path: |
             ./ansible/key.pem
             /ansible/inventory
+
+  Run-Ansible:
+    needs: [Run-terraform]
+    runs-on:
+      - self-hosted
+    container:
+      image: ansible/ansible
+      env:
+        DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
+        aws_access_key: ${{ secrets.DO_S3_ID }}
+        aws_secret_key: ${{ secrets.DO_S3_KEY }}
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+
+      - name: Get inventory file from tf state
+        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory
+
+      - name: Get SSH key from state
+        run: ::add-mask::terraform output -raw private_key | tee ./ansible/key.pem
+
+      - name: Run playbook
+        run: ansible-playbook -i ./ansible/inventory --private-key ./ansible/key.pem ./ansible/playbook.yml -D

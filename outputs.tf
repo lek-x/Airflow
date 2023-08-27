@@ -7,3 +7,8 @@ output "private_key" {
   value     = tls_private_key.ssh_key.private_key_pem
   sensitive = true
 }
+
+output "ansible_inventory" {
+  value     = local_file.ansible_inventory.content
+  sensitive = true
+}

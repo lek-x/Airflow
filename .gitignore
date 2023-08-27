@@ -4,6 +4,7 @@ terraform.tfstate
 /ansible/ansible.log
 /ansible/wg_peer.conf
 /ansible/inventory
+/ansible/key.pem
 terraform.tfstate.backup
 .terraform.lock.hcl
 .terraform/

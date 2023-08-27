@@ -3,6 +3,10 @@ locals {
   ssh_filename = "key"
   region       = (var.region == "usa" ? "nyc1" : (var.region == "eu" ? "fra1" : "lon1"))
   image        = (var.image == "ubuntu" ? "ubuntu-22-10-x64" : "rockylinux-9-x64")
+  ansible = {
+    inventory_template_path = "${path.module}/inventory.tftpl",
+    inventory_file_path     = "${path.module}/ansible/inventory",
+  }
 }
 
 resource "tls_private_key" "ssh_key" {
@@ -19,27 +23,16 @@ resource "digitalocean_ssh_key" "default" {
 ### Create new VM
 resource "digitalocean_droplet" "VM1" {
   image    = local.image
-  name     = "TEST"
+  name     = "airflow"
   region   = local.region
   size     = "s-1vcpu-1gb"
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-  tags     = ["TEST"]
+  tags     = ["airflow"]
 
-}
-
-resource "local_file" "inventory" {
-  content = templatefile("${path.module}/inventory.tmpl",
-    {
-      ip_name      = digitalocean_droplet.VM1.ipv4_address
-      droplet_name = digitalocean_droplet.VM1.name
-    }
-  )
-  filename   = "${path.module}/ansible/inventory"
-  depends_on = [digitalocean_droplet.VM1]
 }
 
 resource "time_sleep" "wait_30_seconds" {
-  depends_on = [local_file.inventory]
+  depends_on = [local_file.ansible_inventory]
 
   create_duration = "30s"
 }
@@ -47,7 +40,7 @@ resource "local_sensitive_file" "pem_file" {
   filename             = pathexpand("./ansible/${local.ssh_filename}.pem")
   file_permission      = "600"
   directory_permission = "700"
-  content    = tls_private_key.ssh_key.private_key_pem
+  content              = tls_private_key.ssh_key.private_key_pem
 }
 
 resource "null_resource" "playbook" {
