@@ -100,7 +100,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
