@@ -137,7 +137,7 @@ jobs:
         run: unzip /terraform.zip -j -d /usr/local/bin
 
       - name: Change permissions
-        run: chmod 777 /:/usr/local/bin/terraform && export PATH=$PATH:/usr/local/bin
+        run: chmod 777 /usr/local/bin/terraform && export PATH=$PATH:/usr/local/bin
 
       - name: Terraform Init
         id: init
