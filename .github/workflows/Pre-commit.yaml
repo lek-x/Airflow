@@ -1,0 +1,38 @@
+---
+name: Pre-commit
+run-name: "Code validation [attempt: #${{ github.run_attempt }}]"
+
+# yamllint disable-line rule:truthy
+on:
+  # yamllint disable-line rule:empty-values
+  push:
+    branches:
+      - '**'
+      - '!master'
+      - '!main'
+      - '!refs/pull/*'
+
+jobs:
+  pre-commit:
+    needs: [Checkout_repos]
+    runs-on:
+      - self-hosted
+    container:
+      image: airdock/python-poetry
+      env:
+        registry-username: ${{ secrets.DOCKER_USERNAME }}
+        registry-password: ${{ secrets.DOCKER_PASSWORD }}
+      volumes:
+        - my_docker_volume:/$GITHUB_WORKSPACE
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+
+      - name: Install hoocks
+        run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
+
+      - name: Run cheks
+        run: pre-commit run --all-files -c .ci/pre-commit-config.yaml
