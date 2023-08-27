@@ -19,23 +19,7 @@ env:
   job_environment: dev
 
 jobs:
-  Checkout_repos:
-    runs-on:
-      - self-hosted
-    steps:
-      - name: Clean env
-        run: rm -rf *
-
-      - name: Clean old Docker images
-        run: docker system prune -a -f
-
-      - name: Checkout current repo
-        uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
-
   Build-docker-Airflow:
-    needs: [Checkout_repos]
     runs-on:
       - self-hosted
     container:
@@ -43,14 +27,17 @@ jobs:
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
-      volumes:
-        - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
       - name: Run details
         run: |
           echo "Run number: $GITHUB_RUN_NUMBER"
           echo "Image Name: ${{ env.image_name }}"
           echo "See full image> ${{ env.image_name }}:$GITHUB_RUN_NUMBER "
+
+      - name: Checkout current repo
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
 
       - name: Build Docker image
         uses: mr-smithers-excellent/docker-build-push@v6.2
@@ -88,6 +75,11 @@ jobs:
       volumes:
         - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
@@ -109,14 +101,14 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: echo "apply"
+        # yamllint disable-line rule:line-length
+        run: terraform apply -auto-approve -no-color -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
         continue-on-error: true
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ssh key
-          path: ./ansible/key.pem
-
-      - name: Clean
-        run: rm -rf .terraform/
+          name: artifacts
+          path: |
+            ./ansible/key.pem
+            /ansible/inventory
