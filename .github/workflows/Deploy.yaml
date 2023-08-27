@@ -150,7 +150,7 @@ jobs:
         run: terraform output -raw private_key | tee ./ansible/key.pem
 
       - name: Debug
-        run: pwd && ls -la
+        run: pwd && ls -la ansible/
 
       - name: Run playbook
-        run: ansible-playbook -i ./ansible/inventory --private-key ./ansible/key.pem ./ansible/playbook.yml -D
+        run: ansible-playbook -i ansible/inventory --private-key ansible/key.pem ansible/playbook.yml -D
