@@ -128,7 +128,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install additional tools
-        run: apk add wget unzip apk add openssh-client
+        run: apk add wget unzip openssh-client
 
       - name: Download terraform
         run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -O /terraform.zip -q
