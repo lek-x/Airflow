@@ -1,4 +1,6 @@
 ---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -69,6 +71,13 @@ repos:
     hooks:
       - id: shellcheck
       - id: shfmt
+  # TERRAFORM ##################################################################
+  # Not working
+  # - repo: https://github.com/tfsec/tfsec
+  #   rev: v0.58.4
+  #   hooks:
+  #     - id: tfsec
+  #       args: ["--tfvars-file", "terraform/terraform.tfvars"]
   - repo: https://github.com/gruntwork-io/pre-commit
     rev: v0.1.22
     hooks:

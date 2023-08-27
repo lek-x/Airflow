@@ -5,14 +5,15 @@ exclude_paths:
   - ./skel
   - ./scripts
   - ./tests
-  - ./deployment/ansible/galaxy_roles
-  - ./deployment/ansible/collections
+  - ./ansible/galaxy_roles
+  - ./ansible/collections
 skip_list:
   - yaml
-  - 204  # linelength - Checked by yamllint
-  - 502  # SCP0005
-  - 701  # ansible_galaxy
-  - 703  # license
+  - '204'  # linelength - Checked by yamllint
+  - '502'  # SCP0005
+  - '701'  # ansible_galaxy
+  - '703'  # license
+  - 'fqcn-builtins'
 use_default_rules: true
 verbosity: 1
 warn_list:

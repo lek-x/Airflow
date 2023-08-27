@@ -116,7 +116,7 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: ansible/ansible
+      image: cytopia/ansible
       env:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
