@@ -12,7 +12,7 @@ resource "tls_private_key" "ssh_key" {
 
 ### Import SSH key or Use existing key in DO
 resource "digitalocean_ssh_key" "default" {
-  name       = "My_key"
+  name       = "test_key"
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
@@ -43,11 +43,11 @@ resource "time_sleep" "wait_30_seconds" {
 
   create_duration = "30s"
 }
-resource "local_file" "pem_file" {
+resource "local_sensitive_file" "pem_file" {
   filename             = pathexpand("./ansible/${local.ssh_filename}.pem")
   file_permission      = "600"
   directory_permission = "700"
-  sensitive_content    = tls_private_key.ssh_key.private_key_pem
+  content    = tls_private_key.ssh_key.private_key_pem
 }
 
 resource "null_resource" "playbook" {
