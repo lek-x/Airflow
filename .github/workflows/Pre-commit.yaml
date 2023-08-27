@@ -22,8 +22,6 @@ jobs:
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
-      volumes:
-        - my_docker_volume:/$GITHUB_WORKSPACE
 
     steps:
       - name: Checkout current repo
