@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "vpn-do"
+name = "airflow-do"
 version = "0.1.0"
-description = "wireguard_deploying"
+description = "Airflow deployment"
 authors = ["Roman <mmm.romka@gmail.com>"]
 license = "GPL"
 readme = "README.md"
