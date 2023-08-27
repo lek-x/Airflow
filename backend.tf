@@ -1,5 +1,5 @@
 terraform {
- backend "s3" {
+  backend "s3" {
     endpoint                    = "https://terr-state.fra1.digitaloceanspaces.com"
     bucket                      = "tf-store"
     key                         = "terraform-test.tfstate"
@@ -8,6 +8,5 @@ terraform {
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     force_path_style            = true
-
   }
 }

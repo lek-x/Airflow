@@ -84,8 +84,8 @@ jobs:
       image: hashicorp/terraform:latest
       env:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
-        aws_access_key: ${{ secrets.D0_S3_ID }}
-        aws_secret_key: ${{ secrets.D0_S3_KEY }}
+        aws_access_key: ${{ secrets.DO_S3_ID }}
+        aws_secret_key: ${{ secrets.DO_S3_KEY }}
       volumes:
         - my_docker_volume:/$GITHUB_WORKSPACE
     steps:
