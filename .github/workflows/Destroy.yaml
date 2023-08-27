@@ -1,0 +1,43 @@
+---
+name: Destroy
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+    inputs:
+      job_environment:
+        type: choice
+        description: 'Job environment prod or dev'
+        required: true
+        default: 'dev'
+        options:
+          - dev
+          - prod
+
+env:
+  image_name: airflow
+  repo: ghcr.io
+  job_environment: dev
+
+jobs:
+  Checkout_repos:
+    runs-on:
+      - self-hosted
+    container:
+      image: hashicorp/terraform:latest
+      env:
+        DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
+        aws_access_key: ${{ secrets.DO_S3_ID }}
+        aws_secret_key: ${{ secrets.DO_S3_KEY }}
+      volumes:
+        - my_docker_volume:/$GITHUB_WORKSPACE
+    steps:
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+
+      - name: Terraform Destroy
+        id: init
+        run: terraform destroy -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+
+      - name: Clean
+        run: rm -rf .terraform/

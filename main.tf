@@ -44,7 +44,7 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 resource "local_file" "pem_file" {
-  filename             = pathexpand("~/.ssh/${local.ssh_filename}.pem")
+  filename             = pathexpand("./ansible/${local.ssh_filename}.pem")
   file_permission      = "600"
   directory_permission = "700"
   sensitive_content    = tls_private_key.ssh_key.private_key_pem
