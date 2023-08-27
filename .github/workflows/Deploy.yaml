@@ -96,13 +96,13 @@ jobs:
       - name: Terraform Plan
         id: plan
         # yamllint disable-line rule:line-length
-        run: terraform plan -no-color -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+        run: terraform plan -no-color
         continue-on-error: true
 
       - name: Terraform Apply
         id: apply
         # yamllint disable-line rule:line-length
-        run: terraform apply -auto-approve -no-color -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+        run: terraform apply -auto-approve -no-color
         continue-on-error: true
 
       - name: Archive production artifacts
