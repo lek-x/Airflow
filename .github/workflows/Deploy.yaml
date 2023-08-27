@@ -153,4 +153,5 @@ jobs:
         run: pwd && ls -la ansible/
 
       - name: Run playbook
-        run: ansible-playbook -i ansible/inventory --private-key ansible/key.pem ansible/playbook.yml -D
+        # yamllint disable-line rule:line-length
+        run: ansible-playbook -i ansible/inventory --private-key ansible/key.pem ansible/playbook.yml -D ansible_ssh_common_args='-o StrictHostKeyChecking=no'
