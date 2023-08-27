@@ -131,10 +131,10 @@ jobs:
         run: apk add wget unzip
 
       - name: Download terraform
-        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -o terraform.zip
+        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -P /terraform.zip
 
       - name: Unzip terraform
-        run: unzip terraform.zip -j -d /usr/local/bin
+        run: unzip /terraform.zip -j -d /usr/local/bin
 
       - name: Change permissions
         run: chmod 777 /:/usr/local/bin/terraform && export PATH=$PATH:/usr/local/bin
