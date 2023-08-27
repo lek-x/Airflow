@@ -127,6 +127,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install additional tools
+        run: apk add wget unzip
+
+      - name: Download terraform
+        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -o terraform.zip
+
+      - name: Unzip terraform
+        run: unzip terraform.zip -j -d /usr/local/bin
+
+      - name: Change permissions
+        run: chmod 777 /:/usr/local/bin/terraform && export PATH=$PATH:/usr/local/bin
+
       - name: Terraform Init
         id: init
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
