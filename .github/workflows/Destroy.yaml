@@ -39,5 +39,5 @@ jobs:
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
 
       - name: Terraform Destroy
-        id: init
+        id: destr
         run: terraform destroy -auto-approve
