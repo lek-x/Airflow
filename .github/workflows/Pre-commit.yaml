@@ -21,12 +21,13 @@ jobs:
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
-
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
+      - name: Install pre-commit
+        run: pip install pre-commit
 
       - name: Install hoocks
         run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
