@@ -17,7 +17,7 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: airdock/python-poetry
+      image: ubuntu:latest
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
@@ -26,17 +26,14 @@ jobs:
         uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 1
+      - uses: actions/setup-python@v4.7.0
+
       - name: install git
         run: apt-get update && apt-get install --no-install-recommends -y git
 
       - name: init git
-        run: echo "$GITHUB_WORKSPACE"
-
-      - name: init git
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Install pre-commit
-        run: pip install pre-commit
-
-      - name: Run cheks
-        run: pre-commit run --all-files -c .ci/pre-commit-config.yaml
+      - uses: pre-commit/action@v3.0.0
+        with:
+          extra_args: --all-files -c .ci/pre-commit-config.yaml
