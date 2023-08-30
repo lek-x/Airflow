@@ -9,6 +9,7 @@ This code  deploys small VM in Digital Ocean provider, and setups Wireguard Serv
   - Installed Wireguard on the host OS for generating keys
   - Terraform >=1.0.4
   - Ansible core >= 2.0
+  - Poetry
 
 
 ## Tested with Wireguard Client on:
