@@ -30,7 +30,7 @@ jobs:
         run: apt-get update && apt-get install --no-install-recommends -y git
 
       - name: init git
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+        run: git config --global --add safe.directory .
 
       - name: Install pre-commit
         run: pip install pre-commit
