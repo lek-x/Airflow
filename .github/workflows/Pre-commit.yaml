@@ -17,7 +17,7 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: ubuntu:latest
+      image: airdock/python-poetry
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
@@ -27,13 +27,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Pre config
-        run: apt update && apt install sqlite3 -y
+      - name: init git
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
-      - name: Configuring Pyhton
-        uses: actions/setup-python@v3
+      - name: Install pre-commit
+        run: pip install pre-commit
 
-      - name: Run Pre commit
-        uses: pre-commit/action@v3.0.0
-        with:
-          extra_args:  -c .pre-commit-config.yaml --all-files
+      - name: Run cheks
+        run: pre-commit run --all-files -c .ci/pre-commit-config.yaml
