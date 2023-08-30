@@ -30,4 +30,4 @@ jobs:
       - name: Pre commit
         uses: pre-commit/action@v3.0.0
         with:
-          extra_args:  -c .ci/pre-commit-config.yaml --all-files
+          extra_args:  -c .pre-commit-config.yaml --all-files
