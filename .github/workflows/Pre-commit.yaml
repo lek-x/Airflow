@@ -27,6 +27,8 @@ jobs:
         with:
           fetch-depth: 1
       - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.10'
 
       - name: install git
         run: apt-get update && apt-get install --no-install-recommends -y git
