@@ -27,8 +27,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v3
-      - name: Pre commit
+      - name: Pre config
+        run: sudo apt-get install sqlite3
+
+      - name: Configuring Pyhton
+        uses: actions/setup-python@v3
+
+      - name: Run Pre commit
         uses: pre-commit/action@v3.0.0
         with:
           extra_args:  -c .pre-commit-config.yaml --all-files
