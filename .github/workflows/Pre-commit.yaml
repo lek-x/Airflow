@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
 
       - name: Pre config
-        run: apt-get install sqlite3
+        run: apt update && apt install sqlite3
 
       - name: Configuring Pyhton
         uses: actions/setup-python@v3
