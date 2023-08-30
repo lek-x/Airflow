@@ -23,18 +23,19 @@ jobs:
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
       - name: Checkout current repo
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
         with:
           fetch-depth: 1
+          set-safe-directory: true
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: '3.10'
 
       - name: install git
-        run: apt-get update && apt-get install --no-install-recommends -y git
+        run: apt-get update && apt-get install --no-install-recommends -y git sqlite3
 
-      - name: init git
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      # - name: init git
+      #   run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - uses: pre-commit/action@v3.0.0
         with:
