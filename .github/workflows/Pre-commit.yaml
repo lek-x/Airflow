@@ -30,6 +30,9 @@ jobs:
       - name: Install pre-commit
         run: pip install pre-commit
 
+      - name: Debug
+        run: ls -la && pwd
+
       - name: Install hooks
         run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
 
