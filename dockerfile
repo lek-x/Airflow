@@ -1,9 +1,6 @@
-FROM node:20-alpine3.17
+FROM apache/airflow:latest-python3.11
 
-WORKDIR /usr/src/app
-COPY . .
-RUN npm install -g npm@9.8.1 \
-    && npm init -y \
-    && npm install  --save-dev webpack webpack-cli clean-webpack-plugin css-loader node-sass sass sass-loader style-loader postcss-loader postcss-preset-env babel-loader @babel/core @babel/preset-env mini-css-extract-plugin
-
-EXPOSE 8090
+WORKDIR /opt/airfow
+COPY airflow/ .
+RUN pip install --upgrade pip \
+    && pip install -r requirements --no-cache-dir

@@ -28,6 +28,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install pre-commit
+        run: pip install pre-commit
+
       - name: Install hoocks
         run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
 

@@ -1,0 +1,14 @@
+lxml
+requests
+pandas
+numpy
+beautifulsoup4
+pip-review
+python-decouple
+apache-airflow-providers-github
+apache-airflow-providers-microsoft-azure
+apache-airflow-providers-postgres
+apache-airflow-providers-redis
+apache-airflow-providers-slack
+apache-airflow-providers-ssh
+apache-airflow-providers-telegram
