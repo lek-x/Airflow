@@ -30,9 +30,6 @@ jobs:
       - name: Install pre-commit
         run: pip install pre-commit
 
-      - name: Install pre-commit
-        run: pip install pre-commit
-
       - name: Install hooks
         run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
 
