@@ -25,17 +25,17 @@ jobs:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      - uses: actions/setup-python@v4.7.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.7.0
         with:
           python-version: '3.10'
+
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0
 
-      - name: Git 1
+      - name: Set current repo as safe
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
-      - name: Git
-        run: git status && ls -la
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
