@@ -31,6 +31,9 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0
 
+      - name: Git
+        run: git init
+
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
         with:
