@@ -25,9 +25,9 @@ jobs:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      # - uses: actions/setup-python@v4.7.0
-      #   with:
-      #     python-version: '3.10'
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.10'
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0
 
