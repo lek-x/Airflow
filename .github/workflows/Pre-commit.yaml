@@ -22,9 +22,6 @@ jobs:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      - name: Checkout current repo
-        uses: actions/checkout@v3.6.0
-
       - uses: actions/setup-python@v4.7.0
         with:
           python-version: '3.10'
@@ -37,6 +34,9 @@ jobs:
           && add-apt-repository -y ppa:git-core/ppa \
           && apt-get update \
           && apt-get install -y git sqlite3
+
+      - name: Checkout current repo
+        uses: actions/checkout@v3.6.0
         
     
       #- name: Debug1
