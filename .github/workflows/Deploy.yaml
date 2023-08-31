@@ -39,15 +39,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build Docker image
-        uses: mr-smithers-excellent/docker-build-push@v6.2
-        with:
-          image: ${{env.image_name}}
-          tags: $GITHUB_RUN_NUMBER
-          registry: ghcr.io
-          dockerfile: dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Build Docker image
+      #  uses: mr-smithers-excellent/docker-build-push@v6.2
+      #  with:
+      #    image: ${{env.image_name}}
+      #    tags: $GITHUB_RUN_NUMBER
+      #    registry: ghcr.io
+      #    dockerfile: dockerfile
+      #    username: ${{ secrets.DOCKER_USERNAME }}
+      #    password: ${{ secrets.DOCKER_PASSWORD }}
 
   Scan:
     needs: [Build-docker-Airflow]
@@ -88,6 +88,9 @@ jobs:
         id: init
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
 
+      - name: Create workspace
+        run: terraform workspace new "airflow-$environment"
+
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
@@ -122,6 +125,7 @@ jobs:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
+        environment: ${{ github.event.inputs.job_environment }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
@@ -144,14 +148,14 @@ jobs:
         id: init
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
 
+      - name: Terraform select workspace
+        run: terraform worksapce select "airflow-$environment"
+
       - name: Get inventory file from tf state
         run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory
 
       - name: Get SSH key from state
         run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem
-
-      - name: Debug
-        run: pwd && ls -la ansible/
 
       - name: Run playbook
         # yamllint disable-line rule:line-length
