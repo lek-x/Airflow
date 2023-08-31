@@ -43,7 +43,7 @@ jobs:
         run: terraform workspace list
 
       - name: Select workspace
-        run: terraform workspace new "airflow-$environment"
+        run: terraform workspace select "airflow-$environment"
 
       - name: Terraform Destroy
         id: destr
