@@ -32,11 +32,14 @@ jobs:
           python-version: '3.10'
 
       - name: install git
-        run: apt-get update && apt-get install --no-install-recommends -y git=2.34 sqlite3
+        run: apt-get update && apt-get install --no-install-recommends -y git sqlite3
 
-      # - name: init git
-      #   run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Debug1
+        run: ls -la && pwd
 
+      - name: Debug2
+        run: git status
+        
       - uses: pre-commit/action@v3.0.0
         with:
           extra_args: --all-files -c .ci/pre-commit-config.yaml
