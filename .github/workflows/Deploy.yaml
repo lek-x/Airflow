@@ -149,7 +149,7 @@ jobs:
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
 
       - name: Terraform select workspace
-        run: terraform worksapce select "airflow-$environment"
+        run: terraform workspace select "airflow-$environment"
 
       - name: Get inventory file from tf state
         run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory
