@@ -72,6 +72,7 @@ jobs:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
+        environment: ${{ github.event.inputs.job_environment }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0

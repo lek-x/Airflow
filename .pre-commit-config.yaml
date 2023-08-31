@@ -29,12 +29,6 @@ repos:
     hooks:
       - id: ansible-lint
         args: ['-c', '.ci/ansible-lint']
-  # SSH checkouts are broken on GH
-  # - repo: ssh://git@bitbucket.astrazeneca.net:7999/scp/pre-commit-hooks
-  #   rev: e10a93759c45125d08af3ed9f4dc603919932ea4
-  #   hooks:
-  #     - id: encryption-check
-  # DOCS #######################################################################
   # Need to wait for proper release
   # - repo: https://github.com/markdownlint/markdownlint
   #   rev: f6d205a9bc118723f52e3242faebc58f9b46fd72

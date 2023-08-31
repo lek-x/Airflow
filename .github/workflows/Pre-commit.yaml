@@ -17,21 +17,27 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: airdock/python-poetry
+      image: ghcr.io/lek-x/ubuntu_lint:v2
+      credentials:
+        username: lek-x
+        password: ${{ secrets.PACKAGES_TOKEN }}
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
     steps:
-      - name: Checkout current repo
-        uses: actions/checkout@v3.3.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.7.0
         with:
-          fetch-depth: 0
+          python-version: '3.10'
 
-      - name: Install pre-commit
-        run: pip install pre-commit
+      - name: Checkout current repo
+        uses: actions/checkout@v3.6.0
 
-      - name: Install hooks
-        run: pre-commit install --install-hooks -c .ci/pre-commit-config.yaml
+      - name: Set current repo as safe
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Run cheks
-        run: pre-commit run --all-files -c .ci/pre-commit-config.yaml
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.0
+        with:
+          extra_args: --all-files -c .ci/pre-commit-config.yaml
