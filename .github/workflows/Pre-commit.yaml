@@ -31,6 +31,9 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0
 
+      - name: Git 1
+        run: git config --global --add safe.directory
+
       - name: Git
         run: git status && ls -la
 
