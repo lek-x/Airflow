@@ -39,8 +39,8 @@ jobs:
         id: init
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
 
-      - name: Create workspace
-        run: terraform workspace new "$environment" || echo "Workspace $environment already exists or cannot be created"
+      #- name: Select workspace
+      #  run: terraform select new "$environment" || echo "Workspace $environment already exists or cannot be created"
 
       - name: Select workspace
         run: terraform workspace select "$environment"
