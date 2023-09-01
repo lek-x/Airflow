@@ -1,0 +1,91 @@
+---
+- name: Ensure Docker service is startd
+  systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Log into Github
+  become: true
+  community.docker.docker_login:
+    registry: ghcr.io
+    username: "{{ github_user_name }}"
+    password: "{{ github_token }}"
+    reauthorize: true
+  tags: ["docker", "redeploy"]
+
+- name: Check Docker Compose stack
+  shell:
+    cmd: "docker compose ps --filter status=running --services"
+    chdir: "{{ install_path }}"
+  args:
+    executable: /bin/bash
+  register: stack_state
+  changed_when: stack_state.rc !=2
+
+- name: Docker Compose stack DOWN
+  community.docker.docker_compose:
+    project_src: "{{ install_path }}"
+    state: absent
+  when: '"airflow" in stack_state.stdout'
+  tags: ["docker", "redeploy"]
+
+- name: Deploy Docker Compose stack
+  community.docker.docker_compose:
+    project_src: "{{ install_path }}"
+  register: output
+  tags: ["docker", "redeploy"]
+
+- name: Get Status
+  community.docker.docker_container_info:
+    name: airflow
+  register: airflow
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip", "devices"]
+
+- name: Get airflow_db
+  community.docker.docker_container_info:
+    name: airflow_db
+  register: airflow_db
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip", "devices" ]
+
+- name: Get airflow XXXX
+  community.docker.docker_container_info:
+    name: revers-proxy
+  register: airflow_XXX
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip"]
+
+- name: Wait 5 seconds for docker become ready
+  ansible.builtin.wait_for:
+    timeout: 5
+    host: localhost
+  tags: ["clean", "redeploy", "get_ip"]
+
+# - name: Render config for nginx_main
+#   lineinfile:
+#     dest:  "{{ confdir.path }}/nginx_main.conf"
+#     regexp: '^\s*listen 8000;.*$'
+#     line: '     listen 8000 ssl http2;'
+#     backrefs: true
+#   tags: ["clean", "redeploy", "get_ip"]
+#   become: true
+
+- name: Show IPs
+  debug:
+    msg: |
+     Airflow Web - "{{ airflow['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+     Librenms Db - "{{ airflow_db['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+     Airflow XXX - "{{ airflow_proxy['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+  tags: ["get_ip", "redeploy"]
+  when: not ansible_check_mode
+
+- name: Wait when GUI will responce
+  uri:
+    url: "https://{{ netbox_vars.dns_name }}"
+  register: result
+  until: "result.status == 200"
+  retries: 5
+  delay: 20
+  when: not ansible_check_mode

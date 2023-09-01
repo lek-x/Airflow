@@ -1,0 +1,12 @@
+---
+- name: Include the plabook
+  include_tasks: "{{ ansible_os_family }}.yaml"
+  tags: ["configure"]
+
+- name: Adding user SCP to Docker groups
+  become: true
+  become_user: root
+  ansible.builtin.user:
+    groups: docker
+    name: scp
+    state: present

@@ -16,7 +16,7 @@ resource "tls_private_key" "ssh_key" {
 
 ### Import SSH key or Use existing key in DO
 resource "digitalocean_ssh_key" "default" {
-  name       = "test_key"
+  name       = "key"
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
@@ -31,10 +31,10 @@ resource "digitalocean_droplet" "VM1" {
 
 }
 
-resource "time_sleep" "wait_30_seconds" {
+resource "time_sleep" "wait_15_seconds" {
   depends_on = [local_file.ansible_inventory]
 
-  create_duration = "30s"
+  create_duration = "15s"
 }
 resource "local_sensitive_file" "pem_file" {
   filename             = pathexpand("./ansible/${local.ssh_filename}.pem")

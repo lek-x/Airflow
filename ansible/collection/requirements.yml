@@ -1,0 +1,9 @@
+---
+
+# Define here all ansible required roles and collections.
+
+collections:
+  - name: community.docker
+    type: galaxy
+  - name: community.general
+    type: galaxy
