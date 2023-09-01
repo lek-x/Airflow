@@ -113,7 +113,7 @@ jobs:
           name: artifacts
           path: |
             ./ansible/key.pem
-            /ansible/inventory
+            ./ansible/inventory
 
   Run-Ansible:
     needs: [Run-terraform]
@@ -147,9 +147,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
-
-      - name: Create workspace
-        run: terraform workspace new "$environment" || echo "Workspace airflow-$environment already exists or cannot be created"
 
       - name: Terraform select workspace
         run: terraform workspace select "$environment"
