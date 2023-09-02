@@ -3,6 +3,14 @@ TAGS ?= all
 ENVIRONMENT ?= dev
 OPTIONS ?=
 
+
+ifeq ($(OPTIONS), true)
+	OPTIONS =
+else
+	OPTIONS=-C
+endif
+
+
 .PHONY: init
 init:
 	terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"

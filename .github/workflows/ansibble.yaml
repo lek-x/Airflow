@@ -42,7 +42,7 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
-        DEPLOY: ${{ github.event.inputs.deploy && ' ' || '-C' }} # ${{ github.event.inputs.deploy }}
+        DEPLOY: ${{ github.event.inputs.deploy }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0
@@ -73,4 +73,4 @@ jobs:
         run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem
 
       - name: Run playbook
-        run: make auto OPTIONS="${{ github.event.inputs.deploy && ' ' || '-C' }}"
+        run: make auto OPTIONS="$DEPLOY"
