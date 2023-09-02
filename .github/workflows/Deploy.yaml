@@ -82,8 +82,8 @@ jobs:
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
         conn_type: ${{ secrets.CONN_TYPE }}
         work_db_user: ${{ secrets.WORK_DB_USER }}
-        work_db_pass: ${{ secrets.WORK_DB_PASS }]
-        work_db_host: ${{ secrets.WORK_DB_HOST }]
+        work_db_pass: ${{ secrets.WORK_DB_PASS }}
+        work_db_host: ${{ secrets.WORK_DB_HOST }}
         work_db_port: ${{ secrets.WORK_DB_PORT }}
         work_db_schema: ${{ secrets.SCHEMA }}
     steps:
