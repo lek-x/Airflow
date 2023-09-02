@@ -50,4 +50,4 @@ clean:
 
 .PHONE: auto
 auto:
-	ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory --private-key ansible/key.pem ansible/playbook.yml -D -t $(OPTIONS)
+	ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory --private-key ansible/key.pem ansible/playbook.yml -D -t '$(TAGS)' $(OPTIONS)
