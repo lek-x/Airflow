@@ -35,6 +35,9 @@ jobs:
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         environment: ${{ github.event.inputs.job_environment }}
     steps:
+      - name: Install make
+        run: apk add --no-cache make
+
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
         with:
