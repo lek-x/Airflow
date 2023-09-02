@@ -7,7 +7,7 @@ ENVIRONMENT ?= dev
 ifeq ($(DEPLOY), true)
 	OPTIONS =
 else
-	OPTIONS=-C
+	OPTIONS = -C
 endif
 
 
