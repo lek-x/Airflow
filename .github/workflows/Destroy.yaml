@@ -12,6 +12,10 @@ on:
         options:
           - dev
           - prod
+      confirm:
+        description: |
+          Please confirm this action with this message: 'confirm'
+        required: true
 
 env:
   image_name: airflow
@@ -19,7 +23,8 @@ env:
   job_environment: dev
 
 jobs:
-  Checkout_repos:
+  Destroy:
+    if: github.event.inputs.confirm == 'confirm'
     runs-on:
       - self-hosted
     container:
