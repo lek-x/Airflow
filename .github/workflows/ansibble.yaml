@@ -32,7 +32,7 @@ env:
 
 jobs:
   Run-Ansible:
-    # if: github.event.inputs.confirm == 'confirm'
+    if: github.event.inputs.confirm == 'confirm'
     runs-on:
       - self-hosted
     container:
