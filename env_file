@@ -9,7 +9,6 @@ esac
 export ENVIRONMENT=$ENVIRONMENT_INP
 
 
-echo
 read -e -p 'Input your AWS KEY ID:'  -r aws_access_key
 export aws_access_key
 
@@ -21,3 +20,43 @@ echo "\n"
 
 read -e -p 'Input your DO Token: ' -s -r DIGITALOCEAN_ACCESS_TOKEN
 export DIGITALOCEAN_ACCESS_TOKEN
+
+
+echo "Inpute Airflow vars: \n"
+
+
+read -e -p 'Input db user:'  -r db_user
+export db_user
+
+read -e -p 'Input db pass:'  -s -r db_pass
+export db_pass
+
+read -e -p 'Input db name:'  -s -r db_name
+export db_name
+
+read -e -p 'Input airflow UI username:' -r airflow_www_user
+export airflow_www_user
+
+read -e -p 'Input airflow UI pass:'  -s -r airflow_www_pass
+export airflow_www_pass
+
+read -e -p 'Input work db connetction type: ' -r conn_type
+export conn_type
+
+read -e -p 'Input work db connetction user:' -r work_db_user
+export work_db_user
+
+read -e -p 'Input work db connetction host:' -r work_db_host
+export work_db_host
+
+read -e -p 'Input work db connetction port:' -r work_db_port
+export work_db_port
+
+read -e -p 'Input work db schema:' -r work_db_schema
+export work_db_schema
+
+read -e -p 'Input work db pass:' -s -r work_db_pass
+export work_db_pass
+
+read -e -p 'Input work db pass:' -s -r work_db_pass
+export work_db_pass

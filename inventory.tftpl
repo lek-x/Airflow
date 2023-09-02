@@ -5,3 +5,16 @@ ${droplet_name} ansible_host=${ip_name}
 [all:vars]
 ansible_connection=ssh
 ansible_user=root
+db_user=${db_user}
+db_pass=${db_pass}
+db_name=${db_name}
+airflow_www_user=${airflow_www_user}
+airflow_www_pass=${airflow_www_pass}
+docker_pass=${docker_pass}
+docker_username=${docker_username}
+conn_type=${conn_type}
+work_db_user=${work_db_user}
+work_db_pass=${work_db_pass}
+work_db_host=${work_db_host}
+work_db_port=${work_db_port}
+work_db_schema=${work_db_schema}

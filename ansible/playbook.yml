@@ -26,4 +26,4 @@
     - role: render_compose
       tags: ["render_compose"]
     - role: deploy_stack
-      tags: ["deploy_stack"]
+      tags: ["deploy_stack", "docker"]

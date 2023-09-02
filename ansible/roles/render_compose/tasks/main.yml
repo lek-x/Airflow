@@ -1,18 +1,32 @@
 ---
+- name: Create airflow group
+  group:
+    name: airflow
+    state: present
+
+- name: Create airflow user
+  user:
+    name: airflow
+    groups: airflow,docker
+    uid: "{{ AIRFLOW_UID }}"
+
 - name: Create directory structure
   file:
     path: "{{ item }}"
     state: directory
     owner: root
-    group: root
-    mode: '0600'
+    group: airflow
+    mode: '0660'
   loop:
-    - "{{ install_path }}/dags"
+    - "{{ data_path }}/dags"
+    - "{{ data_path }}/logs"
+    - "{{ data_path }}/config"
+    - "{{ data_path }}/plugins"
 
 - name: Templating docker compose file
   template:
     src: docker-compose.yml.j2
-    dest: "{{ install_path }}"
-    mode: '0600'
+    dest: "{{ install_path }}/docker-compose.yml"
+    mode: '0660'
     owner: root
-    group: root
+    group: airflow

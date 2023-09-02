@@ -1,5 +1,5 @@
 ---
-- name: Ensure Docker service is startd
+- name: Ensure Docker service is started
   systemd:
     name: docker
     state: started
@@ -9,8 +9,8 @@
   become: true
   community.docker.docker_login:
     registry: ghcr.io
-    username: "{{ github_user_name }}"
-    password: "{{ github_token }}"
+    username: "{{ docker_username }}"
+    password: "{{ docker_pass }}"
     reauthorize: true
   tags: ["docker", "redeploy"]
 
@@ -27,7 +27,7 @@
   community.docker.docker_compose:
     project_src: "{{ install_path }}"
     state: absent
-  when: '"airflow" in stack_state.stdout'
+  when: '"airflow-webserver" in stack_state.stdout'
   tags: ["docker", "redeploy"]
 
 - name: Deploy Docker Compose stack
@@ -36,24 +36,66 @@
   register: output
   tags: ["docker", "redeploy"]
 
-- name: Get Status
+- name: Get Status Airflow Web
   community.docker.docker_container_info:
-    name: airflow
-  register: airflow
+    name: airflow-webserver
+  register: airflow-webserver
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
 
-- name: Get airflow_db
+- name: Get Airflow_db
   community.docker.docker_container_info:
-    name: airflow_db
-  register: airflow_db
+    name:  postgres
+  register:  postgres
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
 
-- name: Get airflow test
+- name: Get Redis
   community.docker.docker_container_info:
-    name: test
-  register: airflow_test
+    name:  redis
+  register:  redis
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip", "devices" ]
+
+- name: Get Airflow scheduler
+  community.docker.docker_container_info:
+    name: airflow-scheduler
+  register:  airflow-scheduler
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip", "devices" ]
+
+- name: Get Airflow worker
+  community.docker.docker_container_info:
+    name: airflow-worker
+  register:  airflow-worker
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip", "devices" ]
+
+- name: Get airflow triggerer
+  community.docker.docker_container_info:
+    name: airflow-triggerer
+  register: airflow-triggerer
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip"]
+
+- name: Get airflow init
+  community.docker.docker_container_info:
+    name: airflow-init
+  register: airflow-init
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip"]
+
+- name: Get airflow cli
+  community.docker.docker_container_info:
+    name: airflow-cli
+  register: airflow-cli
+  changed_when: false
+  tags: ["clean", "redeploy", "get_ip"]
+
+- name: Get airflow flower
+  community.docker.docker_container_info:
+    name: airflow-flower
+  register: airflow-flower
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 
@@ -75,15 +117,13 @@
 - name: Show IPs
   debug:
     msg: |
-     Airflow Web - "{{ airflow['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
-     Librenms Db - "{{ airflow_db['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
-     Airflow XXX - "{{ airflow_proxy['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+     Airflow Web - "{{ airflow_webserver_1['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
 
 - name: Wait when GUI will responce
   uri:
-    url: "https://{{ netbox_vars.dns_name }}"
+    url: "http://{{ inventory_hostname }}:8080"
   register: result
   until: "result.status == 200"
   retries: 5

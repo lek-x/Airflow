@@ -1,2 +1,10 @@
 ---
 install_path: /opt/airflow
+data_path: "{{ install_path }}/data"
+db_path: "{{ install_path }}/db"
+AIRFLOW_UID: 50000
+packages:
+  - "net-tools"
+  - vim
+  - tmux
+  - screen

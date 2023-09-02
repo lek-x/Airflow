@@ -73,6 +73,19 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
+        airflow_www_pass: ${{ secrets.AIRFLOW_WWW_PASS }}
+        airflow_www_user: ${{ secrets.AIRFLOW_WWW_USER }}
+        db_name: ${{ secrets.DB_NAME }}
+        db_pass: ${{ secrets.DB_PASS }}
+        db_user: ${{ secrets.DB_USER }}
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_PASSWORD }}
+        conn_type: ${{ secrets.CONN_TYPE }}
+        work_db_user: ${{ secrets.WORK_DB_USER }}
+        work_db_pass: ${{ secrets.WORK_DB_PASS }]
+        work_db_host: ${{ secrets.WORK_DB_HOST }]
+        work_db_port: ${{ secrets.WORK_DB_PORT }}
+        work_db_schema: ${{ secrets.SCHEMA }}
     steps:
       - name: Install make
         run: apk add --no-cache make
@@ -125,6 +138,7 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
+
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
