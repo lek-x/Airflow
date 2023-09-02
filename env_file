@@ -1,0 +1,14 @@
+[[ "$0" == "$BASH_SOURCE" ]] && echo -e "Use 'source' to run this file.\nAborting..." && exit 1
+
+echo
+read -e -p 'Input your AWS KEY ID:'  -r aws_access_key
+export aws_access_key
+
+
+read  -s -e -p 'Input your AWS SECRET KEY: ' -r aws_secret_key
+export aws_secret_key
+echo "\n"
+
+
+read -e -p 'Input your DO Token: ' -s -r DIGITALOCEAN_ACCESS_TOKEN
+export DIGITALOCEAN_ACCESS_TOKEN

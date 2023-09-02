@@ -50,10 +50,10 @@
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
 
-- name: Get airflow XXXX
+- name: Get airflow test
   community.docker.docker_container_info:
-    name: revers-proxy
-  register: airflow_XXX
+    name: test
+  register: airflow_test
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 

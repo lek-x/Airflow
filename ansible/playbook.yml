@@ -14,9 +14,16 @@
       vars:
         ansible_connection: local
 
-- name: "Install WireGuard"
+- name: "Install airflow"
   hosts: all
   gather_facts: true
   become: true
   roles:
-    - update_system
+    - role: update_system
+      tags: ["update"]
+    - role: install_docker
+      tags: ["install_docker"]
+    - role: render_compose
+      tags: ["render_compose"]
+    - role: deploy_stack
+      tags: ["deploy_stack"]

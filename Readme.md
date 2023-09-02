@@ -1,50 +1,49 @@
-# Fast deploy VPN Wireguard Server with Terraform, Ansible
+# Deploy Airflow Server with Terraform, Ansible
 
 ## Description
 
-This code  deploys small VM in Digital Ocean provider, and setups Wireguard Server with generating keys and config. It takes ~5 min to deploy WireGuard Server.
+This code  deploys VM in Digital Ocean provider, and setups Airflow Server with generating keys and config. It takes ~5 min to deploy Airflow Server.
 
 
 ## Requrements:
-  - Installed Wireguard on the host OS for generating keys
   - Terraform >=1.0.4
   - Ansible core >= 2.0
   - Poetry
-
-
-## Tested with Wireguard Client on:
-  - Windows 11
-  - Keentic Viva/Giga Router
-  - iOS > 12
-  - Andorid > 11
 
 
 # How to
 ### Using make
 
 
-1. Init modules
+
+
+1. Create env
+```
+make env
+```
+
+2. Init  terraform modules
 ```
 make init
 ```
 
-2. Plan infrasrtucture with passing arguments **reg**, **img**
+3. Plan infrasrtucture
 
 ```
-make plan reg=eu img=rocky
+make plan
 ```
 
-3. Deploy infrastructure with passing arguments **reg**, **img**. Without any confirmations
+4. Deploy infrastructure without any confirmations
 ```
-make apply reg=eu img=rocky
+make apply
 ```
 
-4. Export private ssh key (name my_ssh.key)
+5. Export private ssh key (name my_ssh.key)
 ```
 make key
 ```
 
-5. Destroy infrastructure. Without any confirmations
+6. Destroy infrastructure. Without any confirmations
 ```
 make destroy
 ```
