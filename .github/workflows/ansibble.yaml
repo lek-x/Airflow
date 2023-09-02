@@ -42,7 +42,7 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
-        OPTIONS: ${{ github.event.inputs.deploy }}
+        DEPLOY: ${{ github.event.inputs.deploy }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.6.0

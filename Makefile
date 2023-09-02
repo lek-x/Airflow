@@ -4,7 +4,7 @@ ENVIRONMENT ?= dev
 # OPTIONS ?=
 
 
-ifeq ($(OPTIONS), true)
+ifeq ($(DEPLOY), true)
 	OPTIONS =
 else
 	OPTIONS=-C
