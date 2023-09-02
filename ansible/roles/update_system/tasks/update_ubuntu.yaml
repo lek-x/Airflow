@@ -8,6 +8,11 @@
   tags:
     - update_system
 
+- name: Kill apt
+  command: killall apt apt-get
+  register: kill
+  changed_when: kill.rc != 2
+
 - name: Install packages
   apt:
     name: "{{ packages }}"
