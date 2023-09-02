@@ -72,7 +72,7 @@ jobs:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
-        environment: ${{ github.event.inputs.job_environment }}
+        ENVIRONMENT: ${{ github.event.inputs.job_environment }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
@@ -86,26 +86,22 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
-
-      - name: Create workspace
-        run: terraform workspace new "$environment" || echo "Workspace airflow-$environment already exists or cannot be created"
+        run: make init
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
 
+      - name: Create workspace ${{ github.event.inputs.job_environment }}
+        run: make workspace
+
       - name: Terraform Plan
         id: plan
-        # yamllint disable-line rule:line-length
-        run: terraform plan -no-color
-        continue-on-error: true
+        run: make plan
 
       - name: Terraform Apply
         id: apply
-        # yamllint disable-line rule:line-length
-        run: terraform apply -auto-approve -no-color
-        continue-on-error: true
+        run: make apply
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
@@ -125,7 +121,7 @@ jobs:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
-        environment: ${{ github.event.inputs.job_environment }}
+        ENVIRONMENT: ${{ github.event.inputs.job_environment }}
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
@@ -146,10 +142,10 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
+        run: make init
 
       - name: Terraform select workspace
-        run: terraform workspace select "$environment"
+        run: make workspace
 
       - name: Get inventory file from tf state
         run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory

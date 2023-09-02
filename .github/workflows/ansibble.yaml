@@ -1,0 +1,76 @@
+---
+name: Run anisble
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Job environment prod or dev"
+        required: true
+        default: "dev"
+        type: choice
+        options: ["dev", "prod"]
+      deploy:
+        description: "Check to apply, uncheck for `check mode`"
+        required: true
+        default: false
+        type: boolean
+      options:
+        description: "Ansible options: verbosity, tags, etc."
+        required: false
+        type: string
+        default: ""
+      confirm:
+        description: |
+          Please confirm this action with this message: 'confirm'
+        required: true
+
+env:
+  ENVIRONMENT: ${{ inputs.environment }}
+  TAGS: ${{ inputs.options }}
+  DEPLOY: ${{ inputs.deploy }}
+
+jobs:
+  Run-Ansible:
+    # if: github.event.inputs.confirm == 'confirm'
+    runs-on:
+      - self-hosted
+    container:
+      image: cytopia/ansible
+      env:
+        DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
+        aws_access_key: ${{ secrets.DO_S3_ID }}
+        aws_secret_key: ${{ secrets.DO_S3_KEY }}
+        ENVIRONMENT: ${{ github.event.inputs.job_environment }}
+        DEPLOY: ${{ github.event.inputs.deploy && ' ' || '-C' }} # ${{ github.event.inputs.deploy }}
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v3.6.0
+
+      - name: Install additional tools
+        run: apk add wget unzip openssh-client
+
+      - name: Download terraform
+        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -O /terraform.zip -q
+
+      - name: Unzip terraform
+        run: unzip /terraform.zip -d /usr/local/bin
+
+      - name: Change permissions
+        run: chmod 777 /usr/local/bin/terraform && export PATH=$PATH:/usr/local/bin
+
+      - name: Terraform Init
+        id: init
+        run: make init
+
+      - name: Terraform select workspace
+        run: make workspace
+
+      - name: Get inventory file from tf state
+        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory
+
+      - name: Get SSH key from state
+        run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem
+
+      - name: Run playbook
+        run: make auto

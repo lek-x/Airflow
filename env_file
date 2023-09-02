@@ -1,5 +1,14 @@
 [[ "$0" == "$BASH_SOURCE" ]] && echo -e "Use 'source' to run this file.\nAborting..." && exit 1
 
+
+read -e -p "Enter environment (prod/dev): " -i "dev" -r ENVIRONMENT_INP
+case $ENVIRONMENT_INP in
+  prod | dev) echo "Selected environment: $ENVIRONMENT_INP" ;;
+  *) echo -e "Unknown region: $ENVIRONMENT_INP\nAborting..."; return 1 ;;
+esac
+export ENVIRONMENT=$ENVIRONMENT_INP
+
+
 echo
 read -e -p 'Input your AWS KEY ID:'  -r aws_access_key
 export aws_access_key
