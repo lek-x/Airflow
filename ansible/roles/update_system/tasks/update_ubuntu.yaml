@@ -12,6 +12,7 @@
   command: killall apt apt-get
   register: kill
   changed_when: kill.rc != 2
+  ignore_errors: true
 
 - name: Install packages
   apt:
