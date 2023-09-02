@@ -1,7 +1,7 @@
 
 TAGS ?= all
 ENVIRONMENT ?= dev
-OPTIONS ?=
+# OPTIONS ?=
 
 
 ifeq ($(OPTIONS), true)
