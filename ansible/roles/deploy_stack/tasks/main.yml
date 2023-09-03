@@ -115,9 +115,9 @@
 #   changed_when: false
 #   tags: ["clean", "redeploy", "get_ip"]
 
-- name: Wait 5 seconds for docker become ready
+- name: Wait 15 seconds for docker become ready
   ansible.builtin.wait_for:
-    timeout: 5
+    timeout: 15
     host: localhost
   tags: ["clean", "redeploy", "get_ip"]
 
@@ -127,6 +127,17 @@
      Airflow Web - "{{ airflow }}"
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
+
+- name: Seeding db
+  command: "docker exec postgres psql -d airflow -U {{ work_db_user }} -f /var/lib/postgresql/data/dbseed.sql"
+  register: seeding
+  changed_when: seeding.rc != 2
+
+- name: Remove seed file
+  file:
+    path: "{{ db_path }}/dbseed.sql"
+    state: absent
+  when: seeding.rc != 2
 
 # - name: Show IPs
 #   debug:
@@ -141,5 +152,5 @@
   register: result
   until: "result.status == 200"
   retries: 7
-  delay: 60
+  delay: 120
   when: not ansible_check_mode

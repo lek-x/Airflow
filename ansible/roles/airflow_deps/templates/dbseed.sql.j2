@@ -1,0 +1,2 @@
+INSERT INTO public.connection VALUES (
+1, 'my_work_db', '{{ conn_type }}', '', '{{ work_db_host }}', '{{ work_db_schema }}', '{{ work_db_user }}', '{{ work_db_pass }}', {{ work_db_port }}, 'f', 'f', '' ) ON CONFLICT DO NOTHING;
