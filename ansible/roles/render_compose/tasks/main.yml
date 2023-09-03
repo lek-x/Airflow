@@ -1,29 +1,4 @@
 ---
-- name: Create airflow group
-  group:
-    name: airflow
-    state: present
-
-- name: Create airflow user
-  user:
-    name: airflow
-    groups: airflow,docker
-    uid: "{{ AIRFLOW_UID }}"
-
-- name: Create directory structure
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: airflow
-    mode: '0660'
-    recurse: true
-  loop:
-    - "{{ data_path }}/dags"
-    - "{{ data_path }}/logs"
-    - "{{ data_path }}/config"
-    - "{{ data_path }}/plugins"
-
 - name: Templating docker compose file
   template:
     src: docker-compose.yml.j2

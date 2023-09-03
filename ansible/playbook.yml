@@ -23,6 +23,8 @@
       tags: ["update"]
     - role: install_docker
       tags: ["install_docker"]
+    - role: airflow_deps
+      tags: ["airflow_deps"]
     - role: render_compose
       tags: ["render_compose"]
     - role: deploy_stack

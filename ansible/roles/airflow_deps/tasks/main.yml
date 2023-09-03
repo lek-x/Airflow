@@ -1,0 +1,34 @@
+---
+- name: Create airflow group
+  group:
+    name: airflow
+    state: present
+    gid: 1001
+
+- name: Create airflow user
+  user:
+    name: airflow
+    groups: airflow,docker
+    uid: "{{ AIRFLOW_UID }}"
+
+- name: Create directory structure
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: airflow
+    mode: '0666'
+    recurse: true
+  loop:
+    - "{{ data_path }}/dags"
+    - "{{ data_path }}/logs"
+    - "{{ data_path }}/config"
+    - "{{ data_path }}/plugins"
+
+- name: Template system var
+  template:
+    src: airflow.sh.j2
+    dest: /etc/profile.d/airflow.sh
+    mode: '0666'
+    owner: root
+    gorup: root
