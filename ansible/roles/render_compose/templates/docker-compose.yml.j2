@@ -9,21 +9,14 @@ x-airflow-common:
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://{{ db_user }}:{{ db_pass }}@postgres/{{ db_name }}
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://{{ db_user }}:{{ db_pass }}@postgres/{{ db_name }}
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://{{ db_user }}:{{ db_pass }}@postgres/{{ db_name }}
-    # AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     AIRFLOW_UID: "{{ AIRFLOW_UID }}"
-    AIRFLOW_CONN_MY_PROD_DB: '{
-    "conn_type" = "{{ conn_type }}",
-    "login" = "{{ work_db_user }}",
-    "password" = "{{ work_db_pass }}",
-    "host" = "{{ work_db_host }}",
-    "port" = {{ work_db_port }},
-    "schema" = "{{ work_db_schema }}"
-    }'
+    AIRFLOW_CONN_MY_PROD_DB: "{{ conn_type }}://{{ work_db_user }}:{{ work_db_pass }}@{{ work_db_host }}:{{ work_db_port }}/{{ work_db_schema }}"
   volumes:
     - {{ data_path }}/dags:/opt/airflow/dags
     - {{ data_path }}/logs:/opt/airflow/logs
@@ -49,7 +42,7 @@ services:
     volumes:
       - {{ db_path }}:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
+      test: ["CMD", "pg_isready", "-U","{{ db_user }}","-d" "{{ db_name }}"]
       interval: 10s
       retries: 5
       start_period: 5s
