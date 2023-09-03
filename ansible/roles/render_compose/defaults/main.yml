@@ -2,7 +2,7 @@
 install_path: /opt/airflow
 data_path: "{{ install_path }}/data"
 db_path: "{{ install_path }}/db"
-airflow_image: ghcr.io/lek-x/airflow:21
+image_version: ghcr.io/lek-x/airflow:21
 AIRFLOW_UID: 50000
 airflow_www_user: ""
 airflow_www_pass: ""

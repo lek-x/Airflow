@@ -87,7 +87,7 @@ jobs:
         TF_VAR_work_db_port: ${{ secrets.WORK_DB_PORT }}
         TF_VAR_work_db_schema: ${{ secrets.WORK_DB_SCHEMA }}
         TF_VAR_image_name: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}
-        TF_VAR_build_ver: $GITHUB_RUN_NUMBER
+        TF_VAR_build_ver: ${{github.run_number}}
     steps:
       - name: DEBUG
         run: echo $TF_VAR_build_version & echo $build_version
