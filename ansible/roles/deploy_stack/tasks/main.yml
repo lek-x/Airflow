@@ -39,17 +39,17 @@
 - name: Get Status Airflow Web
   community.docker.docker_container_info:
     name: "{{ item.name }}"
-  register: "{{ item.register }}"
+  register: "{{ item.value }}"
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
   loop:
-    - { 'name': "airflow_webserver", 'register': "airflow_webserver" }
-    - { 'name': "postgres", 'register': "postgres" }
-    - { 'name': "redis", 'register': "redis" }
-    - { 'name': "airflow_worker", 'register': "airflow_worker" }
-    - { 'name': "airflow_triggerer", 'register': "airflow_triggerer" }
-    - { 'name': "airflow_cli", 'register': "airflow_cli" }
-    - { 'name': "airflow_flower", 'register': "airflow_flower" }
+    - { 'name': "airflow_webserver", 'value': "airflow_webserver" }
+    - { 'name': "postgres", 'value': "postgres" }
+    - { 'name': "redis", 'value': "redis" }
+    - { 'name': "airflow_worker", 'value': "airflow_worker" }
+    - { 'name': "airflow_triggerer", 'value': "airflow_triggerer" }
+    - { 'name': "airflow_cli", 'value': "airflow_cli" }
+    - { 'name': "airflow_flower", 'value': "airflow_flower" }
 
 # - name: Get Status Airflow Web
 #   community.docker.docker_container_info:
