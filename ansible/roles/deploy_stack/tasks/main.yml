@@ -27,7 +27,7 @@
   community.docker.docker_compose:
     project_src: "{{ install_path }}"
     state: absent
-  when: '"airflow-webserver" in stack_state.stdout'
+  when: '"airflow_webserver" in stack_state.stdout'
   tags: ["docker", "redeploy"]
 
 - name: Deploy Docker Compose stack
@@ -38,8 +38,8 @@
 
 - name: Get Status Airflow Web
   community.docker.docker_container_info:
-    name: airflow-webserver
-  register: airflow-webserver
+    name: airflow_webserver
+  register: airflow_webserver
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
 
@@ -59,14 +59,14 @@
 
 - name: Get Airflow scheduler
   community.docker.docker_container_info:
-    name: airflow-scheduler
+    name: airflow_scheduler
   register:  airflow-scheduler
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
 
 - name: Get Airflow worker
   community.docker.docker_container_info:
-    name: airflow-worker
+    name: airflow_worker
   register:  airflow-worker
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
@@ -80,22 +80,22 @@
 
 - name: Get airflow init
   community.docker.docker_container_info:
-    name: airflow-init
-  register: airflow-init
+    name: airflow_init
+  register: airflow_init
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 
 - name: Get airflow cli
   community.docker.docker_container_info:
-    name: airflow-cli
-  register: airflow-cli
+    name: airflow_cli
+  register: airflow_cli
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 
 - name: Get airflow flower
   community.docker.docker_container_info:
-    name: airflow-flower
-  register: airflow-flower
+    name: airflow_flower
+  register: airflow_flower
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 
@@ -117,7 +117,7 @@
 - name: Show IPs
   debug:
     msg: |
-     Airflow Web - "{{ airflow_webserver_1['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+     Airflow Web - "{{ airflow_webserver['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
 
@@ -126,6 +126,6 @@
     url: "http://{{ inventory_hostname }}:8080"
   register: result
   until: "result.status == 200"
-  retries: 5
-  delay: 20
+  retries: 7
+  delay: 60
   when: not ansible_check_mode
