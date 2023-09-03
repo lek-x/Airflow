@@ -12,7 +12,7 @@
     username: "{{ docker_username }}"
     password: "{{ docker_pass }}"
     reauthorize: true
-  tags: ["docker", "redeploy"]
+  tags: ["docker", "redeploy", "always"]
 
 - name: Check Docker Compose stack
   shell:
@@ -22,6 +22,7 @@
     executable: /bin/bash
   register: stack_state
   changed_when: stack_state.rc !=2
+  tags: ["always"]
 
 - name: Docker Compose stack DOWN
   community.docker.docker_compose:
