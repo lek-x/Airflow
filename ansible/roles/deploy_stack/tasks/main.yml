@@ -39,17 +39,17 @@
 - name: Get Status Airflow Web
   community.docker.docker_container_info:
     name: "{{ item.name }}"
-  register: "{{ item.value }}"
+  register: airflow
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
   loop:
-    - { 'name': "airflow_webserver", 'value': "airflow_webserver" }
-    - { 'name': "postgres", 'value': "postgres" }
-    - { 'name': "redis", 'value': "redis" }
-    - { 'name': "airflow_worker", 'value': "airflow_worker" }
-    - { 'name': "airflow_triggerer", 'value': "airflow_triggerer" }
-    - { 'name': "airflow_cli", 'value': "airflow_cli" }
-    - { 'name': "airflow_flower", 'value': "airflow_flower" }
+    - "airflow_webserver"
+    - "postgres"
+    - "redis"
+    - "airflow_worker"
+    - "airflow_triggerer"
+    - "airflow_cli"
+    - "airflow_flower"
 
 # - name: Get Status Airflow Web
 #   community.docker.docker_container_info:
@@ -123,7 +123,7 @@
 - name: Show IPs
   debug:
     msg: |
-     Airflow Web - "{{ airflow_webserver }}"
+     Airflow Web - "{{ airflow }}"
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
 
