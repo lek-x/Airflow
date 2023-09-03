@@ -86,7 +86,7 @@ jobs:
         TF_VAR_work_db_host: ${{ secrets.WORK_DB_HOST }}
         TF_VAR_work_db_port: ${{ secrets.WORK_DB_PORT }}
         TF_VAR_work_db_schema: ${{ secrets.WORK_DB_SCHEMA }}
-        TF_VAR_image_name: ghcr.io/lek-x/${{ env.image_name }}:$GITHUB_RUN_NUMBER
+        TF_VAR_image_name: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}:$GITHUB_RUN_NUMBER
     steps:
       - name: Install make
         run: apk add --no-cache make
