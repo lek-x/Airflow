@@ -42,7 +42,7 @@ services:
     volumes:
       - {{ db_path }}:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U","{{ db_user }}","-d" "{{ db_name }}"]
+      test: ["CMD", "pg_isready", "-U","{{ db_user }}","-d","{{ db_name }}"]
       interval: 10s
       retries: 5
       start_period: 5s
