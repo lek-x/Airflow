@@ -83,7 +83,7 @@ variable "image_name" {
   default = "ghcr.io/lek-x/airflow:21"
 }
 
-variable "build_version" {
+variable "build_ver" {
   type    = string
   default = "43"
 }
