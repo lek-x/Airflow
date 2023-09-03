@@ -1,13 +1,13 @@
 ---
 - name: Create airflow group
   group:
-    name: airflow
+    name: "{{ groupname }}"
     state: present
     gid: "{{ AIRFLOW_GUID }}"
 
 - name: Create airflow user
   user:
-    name: airflow
+    name: "{{ username }}"
     groups: airflow,docker
     uid: "{{ AIRFLOW_UID }}"
 
@@ -15,8 +15,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: root
-    group: airflow
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
     mode: '0777'
     recurse: true
   loop:
@@ -24,6 +24,14 @@
     - "{{ data_path }}/logs"
     - "{{ data_path }}/config"
     - "{{ data_path }}/plugins"
+
+- name: Copy Dags
+  copy:
+    src: files/
+    dest: "{{ data_path }}/dags"
+    mode: '0777'
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
 
 - name: Template system var
   template:

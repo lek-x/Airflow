@@ -77,3 +77,8 @@ variable "work_db_schema" {
   type    = string
   default = "my_schema"
 }
+
+variable "image_name" {
+  type    = string
+  default = "ghcr.io/lek-x/airflow:21"
+}

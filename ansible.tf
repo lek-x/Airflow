@@ -19,6 +19,7 @@ resource "local_file" "ansible_inventory" {
       work_db_host     = var.work_db_host
       work_db_port     = var.work_db_port
       work_db_schema   = var.work_db_schema
+      image_name       = var.image_name
     }
   )
   depends_on = [digitalocean_droplet.VM1]

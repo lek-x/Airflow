@@ -4,6 +4,9 @@ data_path: "{{ install_path }}/data"
 db_path: "{{ install_path }}/db"
 AIRFLOW_UID: 50000
 AIRFLOW_GUID: 1001
+username:  airflow
+groupname: airflow
+
 packages:
   - "net-tools"
   - vim
