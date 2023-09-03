@@ -31,4 +31,8 @@
     dest: /etc/profile.d/airflow.sh
     mode: '0666'
     owner: root
-    gorup: root
+    group: root
+
+- name: Reboot VM
+  reboot:
+    reboot_timeout: 120
