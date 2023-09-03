@@ -3,6 +3,7 @@ install_path: /opt/airflow
 data_path: "{{ install_path }}/data"
 db_path: "{{ install_path }}/db"
 AIRFLOW_UID: 50000
+AIRFLOW_GUID: 1001
 packages:
   - "net-tools"
   - vim

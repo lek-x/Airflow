@@ -60,21 +60,21 @@
 - name: Get Airflow scheduler
   community.docker.docker_container_info:
     name: airflow_scheduler
-  register:  airflow-scheduler
+  register:  airflow_scheduler
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
 
 - name: Get Airflow worker
   community.docker.docker_container_info:
     name: airflow_worker
-  register:  airflow-worker
+  register:  airflow_worker
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices" ]
 
 - name: Get airflow triggerer
   community.docker.docker_container_info:
-    name: airflow-triggerer
-  register: airflow-triggerer
+    name: airflow_triggerer
+  register: airflow_triggerer
   changed_when: false
   tags: ["clean", "redeploy", "get_ip"]
 

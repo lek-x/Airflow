@@ -3,7 +3,7 @@
   group:
     name: airflow
     state: present
-    gid: 1001
+    gid: "{{ AIRFLOW_GUID }}"
 
 - name: Create airflow user
   user:
@@ -17,7 +17,7 @@
     state: directory
     owner: root
     group: airflow
-    mode: '0666'
+    mode: '0777'
     recurse: true
   loop:
     - "{{ data_path }}/dags"
@@ -29,7 +29,7 @@
   template:
     src: airflow.sh.j2
     dest: /etc/profile.d/airflow.sh
-    mode: '0666'
+    mode: '0777'
     owner: root
     group: root
 
