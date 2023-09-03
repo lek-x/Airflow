@@ -17,6 +17,7 @@
     owner: root
     group: airflow
     mode: '0660'
+    recurse: true
   loop:
     - "{{ data_path }}/dags"
     - "{{ data_path }}/logs"
