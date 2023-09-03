@@ -38,7 +38,7 @@
 
 - name: Get Status Airflow Web
   community.docker.docker_container_info:
-    name: "{{ item.name }}"
+    name: "{{ item }}"
   register: airflow
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
