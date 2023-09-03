@@ -38,66 +38,81 @@
 
 - name: Get Status Airflow Web
   community.docker.docker_container_info:
-    name: airflow_webserver
-  register: airflow_webserver
+    name: "{{ item.name }}"
+  register: "{{ item.register }}"
   changed_when: false
   tags: ["clean", "redeploy", "get_ip", "devices"]
+  loop:
+    - { 'name': "airflow_webserver", 'register': "airflow_webserver" }
+    - { 'name': "postgres", 'register': "postgres" }
+    - { 'name': "redis", 'register': "redis" }
+    - { 'name': "airflow_worker", 'register': "airflow_worker" }
+    - { 'name': "airflow_triggerer", 'register': "airflow_triggerer" }
+    - { 'name': "airflow_cli", 'register': "airflow_cli" }
+    - { 'name': "airflow_flower", 'register': "airflow_flower" }
 
-- name: Get Airflow_db
-  community.docker.docker_container_info:
-    name:  postgres
-  register:  postgres
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip", "devices" ]
-
-- name: Get Redis
-  community.docker.docker_container_info:
-    name:  redis
-  register:  redis
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip", "devices" ]
-
-- name: Get Airflow scheduler
-  community.docker.docker_container_info:
-    name: airflow_scheduler
-  register:  airflow_scheduler
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip", "devices" ]
-
-- name: Get Airflow worker
-  community.docker.docker_container_info:
-    name: airflow_worker
-  register:  airflow_worker
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip", "devices" ]
-
-- name: Get airflow triggerer
-  community.docker.docker_container_info:
-    name: airflow_triggerer
-  register: airflow_triggerer
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip"]
-
-- name: Get airflow init
-  community.docker.docker_container_info:
-    name: airflow_init
-  register: airflow_init
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip"]
-
-- name: Get airflow cli
-  community.docker.docker_container_info:
-    name: airflow_cli
-  register: airflow_cli
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip"]
-
-- name: Get airflow flower
-  community.docker.docker_container_info:
-    name: airflow_flower
-  register: airflow_flower
-  changed_when: false
-  tags: ["clean", "redeploy", "get_ip"]
+# - name: Get Status Airflow Web
+#   community.docker.docker_container_info:
+#     name: airflow_webserver
+#   register: airflow_webserver
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip", "devices"]
+#
+# - name: Get Airflow_db
+#   community.docker.docker_container_info:
+#     name:  postgres
+#   register:  postgres
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip", "devices" ]
+#
+# - name: Get Redis
+#   community.docker.docker_container_info:
+#     name:  redis
+#   register:  redis
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip", "devices" ]
+#
+# - name: Get Airflow scheduler
+#   community.docker.docker_container_info:
+#     name: airflow_scheduler
+#   register:  airflow_scheduler
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip", "devices" ]
+#
+# - name: Get Airflow worker
+#   community.docker.docker_container_info:
+#     name: airflow_worker
+#   register:  airflow_worker
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip", "devices" ]
+#
+# - name: Get airflow triggerer
+#   community.docker.docker_container_info:
+#     name: airflow_triggerer
+#   register: airflow_triggerer
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip"]
+#
+# - name: Get airflow init
+#   community.docker.docker_container_info:
+#     name: airflow_init
+#   register: airflow_init
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip"]
+#
+# - name: Get airflow cli
+#   community.docker.docker_container_info:
+#     name: airflow_cli
+#   register: airflow_cli
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip"]
+#
+# - name: Get airflow flower
+#   community.docker.docker_container_info:
+#     name: airflow_flower
+#   register: airflow_flower
+#   changed_when: false
+#   tags: ["clean", "redeploy", "get_ip"]
 
 - name: Wait 5 seconds for docker become ready
   ansible.builtin.wait_for:
@@ -105,21 +120,19 @@
     host: localhost
   tags: ["clean", "redeploy", "get_ip"]
 
-# - name: Render config for nginx_main
-#   lineinfile:
-#     dest:  "{{ confdir.path }}/nginx_main.conf"
-#     regexp: '^\s*listen 8000;.*$'
-#     line: '     listen 8000 ssl http2;'
-#     backrefs: true
-#   tags: ["clean", "redeploy", "get_ip"]
-#   become: true
-
 - name: Show IPs
   debug:
     msg: |
-     Airflow Web - "{{ airflow_webserver['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+     Airflow Web - "{{ airflow_webserver }}"
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
+
+# - name: Show IPs
+#   debug:
+#     msg: |
+#      Airflow Web - "{{ airflow_webserver['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
+#   tags: ["get_ip", "redeploy"]
+#   when: not ansible_check_mode
 
 - name: Wait when GUI will responce
   uri:
