@@ -5,7 +5,7 @@ variable "image" {
 
 variable "region" {
   type    = string
-  default = "eu"
+  default = "fra1"
 }
 
 variable "environment" {

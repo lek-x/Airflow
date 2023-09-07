@@ -1,7 +1,6 @@
 #### Describe provider
 locals {
   ssh_filename = "key"
-  region       = (var.region == "usa" ? "nyc1" : (var.region == "eu" ? "fra1" : "lon1"))
   image        = (var.image == "ubuntu" ? "ubuntu-22-04-x64" : "rockylinux-9-x64")
   ansible = {
     inventory_template_path = "${path.module}/inventory.tftpl",
@@ -24,7 +23,7 @@ resource "digitalocean_ssh_key" "default" {
 resource "digitalocean_droplet" "VM1" {
   image    = local.image
   name     = "airflow-${var.environment}"
-  region   = local.region
+  region   = var.region
   size     = var.vm_size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   tags     = ["airflow", var.environment]

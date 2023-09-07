@@ -41,6 +41,12 @@
     owner: root
     group: root
 
+- name: Create db directory
+  file:
+    path: "{{ db_path }}"
+    state: directory
+    mode: '0777'
+
 - name: Template seed file
   template:
     src: dbseed.sql.j2

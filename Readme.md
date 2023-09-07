@@ -2,7 +2,7 @@
 
 ## Description
 
-This code  deploys VM in Digital Ocean provider, and setups Airflow Server with generating keys and config. It takes ~5 min to deploy Airflow Server.
+This code  deploys VM in Digital Ocean provider, and setups Airflow Server with generating keys and config. It takes ~5-7 min to deploy Airflow Server.
 
 
 ## Requrements:
@@ -12,10 +12,42 @@ This code  deploys VM in Digital Ocean provider, and setups Airflow Server with 
 
 
 # How to
+### Using GitActions
+1. **Deploy flow:**
+```
+  choose:
+    - branch
+    - environment
+    - size of droplet
+    - region
+```
+
+2. **Destroy flow:**
+```
+  choose:
+    - branch
+    - environment
+    - type 'confirm'
+```
+
+3. **Ansible flow:**
+```
+  choose:
+    - branch
+    - environment
+    - type Ansible tags if it's needed, e.g. docker
+    - check checkbox for applying changes, uncheck to run in dry-run
+    - type 'confirm'
+
+List of tags:
+  - update_system > Updating OS
+  - install_docker > Install docker software
+  - airflow_deps > insatll airflow dependencies, create users, template DAGs, seeding db
+  - render_compose > render compose file
+  - deploy_stack > rund docker compose
+```
+
 ### Using make
-
-
-
 
 1. Create env
 ```
@@ -57,14 +89,12 @@ make destroy
   ```
 1. Plan your infrastructure
   ```
-   terraform plan -var region=eu -var image=rocky
+   terraform plan
   ```
 1. Apply configuration
   ```
- terraform apply -var region=eu -var image=rocky
+ terraform apply
   ```
-1. Ansible playbook runs automatically,  **wg_peer.conf** file will be saved in current directory. Use this file in your wiregurag client.
-
 
 ## Variables
 

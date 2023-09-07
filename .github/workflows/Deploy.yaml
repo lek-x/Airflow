@@ -28,6 +28,15 @@ on:
           - s-4vcpu-16gb-amd
           - g-2vcpu-8gb
           - g-4vcpu-16gb
+      region:
+        type: choice
+        description: 'Chose Region'
+        required: true
+        default: 'fra1'
+        options:
+          - lon1
+          - nyc1
+          - fra1
 
 env:
   image_name: airflow
@@ -105,6 +114,7 @@ jobs:
         TF_VAR_image_name: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}
         TF_VAR_build_ver: ${{github.run_number}}
         TF_VAR_vm_size: ${{ github.event.inputs.vm_size }}
+        TF_VAR_region: ${{ github.event.inputs.region }}
         TFMASK_CHAR: '*'
     steps:
       - name: DEBUG
