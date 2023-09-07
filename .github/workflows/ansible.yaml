@@ -69,10 +69,10 @@ jobs:
         run: make workspace
 
       - name: Get inventory file from tf state
-        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory | tfmask
+        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 > ./ansible/inventory | tfmask
 
       - name: Get SSH key from state
-        run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem | tfmask
+        run: terraform output -raw private_key > tee ./ansible/key.pem && chmod 600 ./ansible/key.pem | tfmask
 
       - name: Run playbook
         run: make auto
