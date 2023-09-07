@@ -36,7 +36,8 @@ jobs:
         environment: ${{ github.event.inputs.job_environment }}
     steps:
       - name: Install make
-        run: apk add --no-cache make
+        # yamllint disable-line rule:line-length
+        run: apk add --no-cache make && wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask
 
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
