@@ -11,6 +11,12 @@ else
 endif
 
 
+ifneq ("$(wildcard /usr/bin/tfmask)","")
+$(info tfmask has been found)
+else
+    $(error  tfmask has  NOT been found, use 'sudo wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask')
+endif
+
 .PHONY: init
 init:
 	terraform init -backend-config="access_key=${aws_access_key}" -backend-config="secret_key=${aws_secret_key}"
@@ -37,7 +43,7 @@ validate:
 
 .PHONY: key
 key:
-	terraform output -raw private_key > ansible/key.pem
+	terraform output -raw private_key > ansible/key.pem | tfmask
 
 .PHONY: activate
 activate:

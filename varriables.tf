@@ -87,3 +87,8 @@ variable "build_ver" {
   type    = string
   default = "43"
 }
+
+variable "vm_size" {
+  type    = string
+  default = "s-2vcpu-4gb"
+}

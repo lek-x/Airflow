@@ -2,7 +2,7 @@
 locals {
   ssh_filename = "key"
   region       = (var.region == "usa" ? "nyc1" : (var.region == "eu" ? "fra1" : "lon1"))
-  image        = (var.image == "ubuntu" ? "ubuntu-22-10-x64" : "rockylinux-9-x64")
+  image        = (var.image == "ubuntu" ? "ubuntu-22-04-x64" : "rockylinux-9-x64")
   ansible = {
     inventory_template_path = "${path.module}/inventory.tftpl",
     inventory_file_path     = "${path.module}/ansible/inventory",
@@ -25,7 +25,7 @@ resource "digitalocean_droplet" "VM1" {
   image    = local.image
   name     = "airflow-${var.environment}"
   region   = local.region
-  size     = "s-2vcpu-4gb"
+  size     = var.vm_size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   tags     = ["airflow", var.environment]
 

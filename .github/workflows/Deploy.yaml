@@ -12,6 +12,22 @@ on:
         options:
           - dev
           - prod
+      vm_size:
+        type: choice
+        description: 'Droplet/VM size'
+        required: true
+        default: 's-2vcpu-4gb'
+        options:
+          - s-2vcpu-4gb
+          - s-2vcpu-4gb-amd
+          - s-2vcpu-4gb-intel
+          - s-4vcpu-8gb
+          - s-4vcpu-8gb-intel
+          - s-2vcpu-8gb-amd
+          - s-4vcpu-16gb-amd
+          - s-4vcpu-16gb-amd
+          - g-2vcpu-8gb
+          - g-4vcpu-16gb
 
 env:
   image_name: airflow
@@ -88,12 +104,15 @@ jobs:
         TF_VAR_work_db_schema: ${{ secrets.WORK_DB_SCHEMA }}
         TF_VAR_image_name: ${{ env.repo }}/${{ secrets.DOCKER_USERNAME }}/${{ env.image_name }}
         TF_VAR_build_ver: ${{github.run_number}}
+        TF_VAR_vm_size: ${{ github.event.inputs.vm_size }}
+        TFMASK_CHAR: '*'
     steps:
       - name: DEBUG
         run: echo $TF_VAR_build_version & echo $build_version
 
       - name: Install make
-        run: apk add --no-cache make
+        # yamllint disable-line rule:line-length
+        run: apk add --no-cache make && wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask
 
       - name: Checkout current repo
         uses: actions/checkout@v3.3.0
@@ -143,6 +162,7 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
+        TFMASK_CHAR: '*'
 
     steps:
       - name: Checkout current repo
@@ -154,7 +174,8 @@ jobs:
         run: apk add wget unzip openssh-client make --no-cache
 
       - name: Download terraform
-        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -O /terraform.zip -q
+        # yamllint disable-line rule:line-length
+        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -O /terraform.zip -q && wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask
 
       - name: Unzip terraform
         run: unzip /terraform.zip -d /usr/local/bin
@@ -170,10 +191,10 @@ jobs:
         run: make workspace
 
       - name: Get inventory file from tf state
-        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory
+        run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 | tee ./ansible/inventory | tfmask
 
       - name: Get SSH key from state
-        run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem
+        run: terraform output -raw private_key | tee ./ansible/key.pem && chmod 600 ./ansible/key.pem | tfmask
 
       - name: Run playbook
         # yamllint disable-line rule:line-length
