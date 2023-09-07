@@ -128,6 +128,14 @@
   tags: ["get_ip", "redeploy"]
   when: not ansible_check_mode
 
+- name: Template seed file
+  template:
+    src: dbseed.sql.j2
+    dest: "{{ db_path }}/dbseed.sql"
+    mode: '0777'
+    owner: "{{ username }}"
+    group: "{{ groupname }}"
+
 - name: Seeding db
   command: "docker exec postgres psql -d airflow -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
   register: seeding

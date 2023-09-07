@@ -41,20 +41,6 @@
     owner: root
     group: root
 
-- name: Create db directory
-  file:
-    path: "{{ db_path }}"
-    state: directory
-    mode: '0777'
-
-- name: Template seed file
-  template:
-    src: dbseed.sql.j2
-    dest: "{{ db_path }}/dbseed.sql"
-    mode: '0777'
-    owner: "{{ username }}"
-    group: "{{ groupname }}"
-
 - name: Reboot VM
   reboot:
     reboot_timeout: 120
