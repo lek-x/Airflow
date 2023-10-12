@@ -1,5 +1,9 @@
 ---
 # Update system CentOS
+- name: Reboot after system have been deployed
+  reboot:
+    reboot_timeout: 100
+
 - name: Update Cache System cache [Common, RHEL family]
   yum:
     update_cache: true
