@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    endpoint.s3                    = "https://fra1.digitaloceanspaces.com"
+    endpoint                    = "https://fra1.digitaloceanspaces.com"
     bucket                      = "tfstat-buck"
     key                         = "terraform.tfstate"
     region                      = "fra1"
