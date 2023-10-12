@@ -1,5 +1,9 @@
 ---
 # Update system  Ubuntu
+- name: Reboot after system have been deployed
+  reboot:
+    reboot_timeout: 100
+
 - name: Update System cache [Common, Debian family]
   apt:
     upgrade: true
