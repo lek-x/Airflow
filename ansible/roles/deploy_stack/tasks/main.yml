@@ -135,6 +135,7 @@
     mode: '0777'
     owner: "{{ username }}"
     group: "{{ groupname }}"
+  no_log: true
 
 - name: Seeding db
   command: "docker exec postgres psql -d airflow -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
