@@ -125,7 +125,7 @@
   debug:
     msg: |
      Airflow Web - "{{ airflow }}"
-  tags: ["get_ip", "redeploy"]
+  tags: ["never", "get_ip", "redeploy"]
   when: not ansible_check_mode
 
 - name: Template seed file
