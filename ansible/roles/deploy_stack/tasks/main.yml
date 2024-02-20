@@ -139,7 +139,7 @@
 
 - name: Get DB name
   set_fact:
-    db_name: '{{ lookup('ansible.builtin.env', 'DB_NAME') }}'
+    db_name: "{{ lookup('ansible.builtin.env', 'DB_NAME') }}"
     
 - name: Seeding db
   command: "docker exec postgres psql -d {{ db_name }} -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
