@@ -72,7 +72,7 @@ jobs:
         run: terraform output 'ansible_inventory'  | head -n -1 |tail -n +2 > ./ansible/inventory | tfmask
 
       - name: Get SSH key from state
-        run: terraform output -raw private_key > tee ./ansible/key.pem && chmod 600 ./ansible/key.pem | tfmask
+        run: terraform output -raw private_key > ./ansible/key.pem && chmod 600 ./ansible/key.pem | tfmask
 
       - name: Run playbook
         run: make auto
