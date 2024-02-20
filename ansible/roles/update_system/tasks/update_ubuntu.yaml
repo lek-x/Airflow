@@ -9,9 +9,16 @@
     upgrade: true
     update_cache: true
     cache_valid_time: 3600
+  register: updatest
   tags:
     - update_system
 
+- name: Run dpkg if needed
+  command: 'dpkg --configure -a'
+  register: dpkgst
+  changed_when: dpkgst.rc != 2
+  when: updatest.rc != 0
+  
 - name: Kill apt
   command: killall apt apt-get
   register: kill
