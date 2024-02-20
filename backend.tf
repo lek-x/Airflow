@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     endpoint                    = "https://fra1.digitaloceanspaces.com"
-    bucket                      = "tfstat-buck"
+    bucket                      = "tfstate-air"
     key                         = "terraform.tfstate"
     region                      = "fra1"
     skip_region_validation      = true
