@@ -92,7 +92,7 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: hashicorp/terraform:latest
+      image: hashicorp/terraform:1.4
       env:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
@@ -172,6 +172,7 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
+        DB_NAME: ${{ secrets.DB_NAME }}
         TFMASK_CHAR: '*'
 
     steps:
