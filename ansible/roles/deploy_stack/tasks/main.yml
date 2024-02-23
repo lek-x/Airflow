@@ -121,12 +121,12 @@
     host: localhost
   tags: ["clean", "redeploy", "get_ip"]
 
-- name: Show IPs
-  debug:
-    msg: |
-     Airflow Web - "{{ airflow }}"
-  tags: ["get_ip", "redeploy"]
-  when: not ansible_check_mode
+# - name: Show IPs
+#  debug:
+#    msg: |
+#     Airflow Web - "{{ airflow }}"
+#  tags: ["get_ip", "redeploy", "never"]
+#  when: not ansible_check_mode
 
 - name: Template seed file
   template:
@@ -137,7 +137,7 @@
     group: "{{ groupname }}"
 
 - name: Seeding db
-  command: "docker exec postgres psql -d airflow -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
+  command: "docker exec postgres psql -d {{ db_name }} -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
   register: seeding
   changed_when: seeding.rc != 2
 

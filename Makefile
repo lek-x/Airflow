@@ -51,7 +51,7 @@ activate:
 
 .PHONY: env
 env:
-	poetry shell && poetry install && pre-commit install -y
+	poetry shell && poetry install --no-root && pre-commit install
 
 .PHONY: play
 play:

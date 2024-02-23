@@ -2,7 +2,7 @@
 version: '3.11'
 x-airflow-common:
   &airflow-common
-  image: {{ image_name }}
+  image: {{ image }}
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor

@@ -80,12 +80,12 @@ variable "work_db_schema" {
 
 variable "image_name" {
   type    = string
-  default = "ghcr.io/lek-x/airflow:21"
+  default = "ghcr.io/lek-x/airflow"
 }
 
 variable "build_ver" {
   type    = string
-  default = "43"
+  default = "63"
 }
 
 variable "vm_size" {
