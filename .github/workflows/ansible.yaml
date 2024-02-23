@@ -53,7 +53,7 @@ jobs:
 
       - name: Download terraform
         # yamllint disable-line rule:line-length
-        run: wget https://releases.hashicorp.com/terraform/1.5.6/terraform_1.5.6_linux_amd64.zip -O /terraform.zip -q && wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask
+        run: wget https://releases.hashicorp.com/terraform/1.6.5/terraform_1.6.5_linux_amd64.zip -O /terraform.zip -q && wget https://github.com/cloudposse/tfmask/releases/download/0.7.0/tfmask_linux_amd64 -O /usr/bin/tfmask && chmod 755 /usr/bin/tfmask
 
       - name: Unzip terraform
         run: unzip /terraform.zip -d /usr/local/bin
