@@ -28,7 +28,7 @@ jobs:
     runs-on:
       - self-hosted
     container:
-      image: hashicorp/terraform:1.4
+      image: hashicorp/terraform:1.6.5
       env:
         DIGITALOCEAN_TOKEN: ${{ secrets.DO_TOKEN }}
         aws_access_key: ${{ secrets.DO_S3_ID }}
