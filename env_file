@@ -8,12 +8,60 @@ case $ENVIRONMENT_INP in
 esac
 export ENVIRONMENT=$ENVIRONMENT_INP
 
+echo ''' Choose VM size:
+  1) s-2vcpu-4gb
+  2) s-2vcpu-4gb-amd
+  3) s-2vcpu-4gb-intel
+  4) s-4vcpu-8gb
+  5) s-4vcpu-8gb-intel
+  6) s-2vcpu-8gb-amd
+  7) s-4vcpu-16gb-amd
+  8) g-2vcpu-8gb
+  9) g-4vcpu-16gb
+'''
+read -e -p 'Choos VM size: '  -a vm_size
+case $vm_size in
+  1)
+    export TF_VAR_vm_size=s-2vcpu-4gb ;;
+  2)
+    export TF_VAR_vm_size=s-2vcpu-4gb-amd ;;
+  3)
+    export TF_VAR_vm_size=s-2vcpu-4gb-intel ;;
+  4)
+    export TF_VAR_vm_size=s-4vcpu-8gb ;;
+  5)
+    export TF_VAR_vm_size=s-4vcpu-8gb-intel ;;
+  6)
+    export TF_VAR_vm_size=s-2vcpu-8gb-amd ;;
+  7)
+    export TF_VAR_vm_size=s-4vcpu-16gb-amd ;;
+  8)
+    export TF_VAR_vm_size=g-2vcpu-8gb ;;
+  9)
+    export TF_VAR_vm_size=g-2vcpu-16gb ;;
+esac
 
-read -e -p 'Input your AWS KEY ID:'  -r aws_access_key
+echo ''' Choose region:
+  1) lon1
+  2) nyc1
+  3) fra1
+'''
+
+read -e -p 'Choose region: ' -r region
+case $region in
+  1)
+    export TF_VAR_vm_region=lon1 ;;
+  2)
+    export TF_VAR_vm_region=nyc1 ;;
+  3)
+    export TF_VAR_vm_region=fra1 ;;
+esac
+
+read -e -p 'Input your S3 KEY ID:'  -r aws_access_key
 export aws_access_key
 
 
-read  -s -e -p 'Input your AWS SECRET KEY: ' -r aws_secret_key
+read  -s -e -p 'Input your S3 SECRET KEY: ' -r aws_secret_key
 export aws_secret_key
 echo "\n"
 

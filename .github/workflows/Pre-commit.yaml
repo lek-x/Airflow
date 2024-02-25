@@ -19,8 +19,8 @@ jobs:
     container:
       image: ghcr.io/lek-x/ubuntu_lint:v2
       credentials:
-        username: lek-x
-        password: ${{ secrets.PACKAGES_TOKEN }}
+        username: ${{ secrets.DOCKER_USERNAME }} # lek-x
+        password: ${{ secrets.DOCKER_PASSWORD }} # ${{ secrets.PACKAGES_TOKEN }}
       env:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}

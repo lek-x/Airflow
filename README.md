@@ -96,10 +96,37 @@ make destroy
  terraform apply
   ```
 
-## Variables
+## Terraform Variables
 
-region: usa=nyc1 (New York), eu=fra1 (Frankfurt), ln=lon1 (London)
-image: ubuntu=ubuntu-22-10-x64, rocky=rockylinux-9-x64
+region:
+- usa=nyc1 (New York)
+- eu=fra1 (Frankfurt)
+- ln=lon1 (London)
+
+image:
+- ubuntu=ubuntu-22-10-x64
+- rocky=rockylinux-9-x64
+
+## GitHub Actions Secrets:
+  - AIRFLOW_WWW_PASS: airflow user pass
+  - AIRFLOW_WWW_USER: airflow user pass
+  - CONN_TYPE: connetction type for db postgres/mysql
+  - DB_NAME: database name
+  - DB_PASS: database pass
+  - DB_USER: database username
+  - DOCKER_PASSWORD: docker password/token for pull containers
+  - DOCKER_USERNAME: docker username
+  - DO_S3_ID: digital ocena S3 bucket access key
+  - DO_S3_KEY: digital ocena S3 bucket secret key
+  - DO_TOKEN: digital ocean account token
+  - PACKAGES_TOKEN: TBD
+  - WORK_DB_HOST: external db hostname, if you need to connect airflow to the external DB
+  - WORK_DB_USER: external db user
+  - WORK_DB_PASS: external db pass
+  - WORK_DB_PORT: external db port
+  - WORK_DB_SCHEMA: external db schema name
+
+
 
 
 
