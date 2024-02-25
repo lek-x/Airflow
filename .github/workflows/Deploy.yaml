@@ -130,14 +130,14 @@ jobs:
         aws_access_key: ${{ secrets.DO_S3_ID }}
         aws_secret_key: ${{ secrets.DO_S3_KEY }}
         ENVIRONMENT: ${{ github.event.inputs.job_environment }}
-        TF_VAR_airflow_www_pass: ${{ github.event.inputs.AIRFLOW_USER }} # ${{ secrets.AIRFLOW_WWW_PASS }}
-        TF_VAR_airflow_www_user: ${{ github.event.inputs.AIRFLOW_PASS }} # ${{ secrets.AIRFLOW_WWW_USER }}
-        TF_VAR_db_name: ${{ github.event.inputs.DB_NAME }} # ${{ secrets.DB_NAME }}
-        TF_VAR_db_pass: ${{ github.event.inputs.DB_PASS }} # ${{ secrets.DB_PASS }}
-        TF_VAR_db_user: ${{ github.event.inputs.DB_USER }} # ${{ secrets.DB_USER }}
+        TF_VAR_airflow_www_pass: ${{ github.event.inputs.AIRFLOW_USER }}
+        TF_VAR_airflow_www_user: ${{ github.event.inputs.AIRFLOW_PASS }}
+        TF_VAR_db_name: ${{ github.event.inputs.DB_NAME }}
+        TF_VAR_db_pass: ${{ github.event.inputs.DB_PASS }}
+        TF_VAR_db_user: ${{ github.event.inputs.DB_USER }}
         TF_VAR_docker_username: ${{ secrets.DOCKER_USERNAME }}
         TF_VAR_docker_pass: ${{ secrets.DOCKER_PASSWORD }}
-        TF_VAR_conn_type: ${{ github.event.inputs.CONN_TYPE }} # ${{ secrets.CONN_TYPE }}
+        TF_VAR_conn_type: ${{ github.event.inputs.CONN_TYPE }}
         TF_VAR_work_db_user: ${{ secrets.WORK_DB_USER }}
         TF_VAR_work_db_pass: ${{ secrets.WORK_DB_PASS }}
         TF_VAR_work_db_host: ${{ secrets.WORK_DB_HOST }}

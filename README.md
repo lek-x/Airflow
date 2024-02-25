@@ -108,12 +108,12 @@ image:
 - rocky=rockylinux-9-x64
 
 ## GitHub Actions Secrets:
-  - AIRFLOW_WWW_PASS: airflow user pass
-  - AIRFLOW_WWW_USER: airflow user pass
-  - CONN_TYPE: connetction type for db postgres/mysql
-  - DB_NAME: database name
-  - DB_PASS: database pass
-  - DB_USER: database username
+  - AIRFLOW_WWW_PASS: airflow user pass [replaced by inputs]
+  - AIRFLOW_WWW_USER: airflow user pass [replaced by inputs]
+  - CONN_TYPE: connetction type for db postgres/mysql [replaced by inputs]
+  - DB_NAME: database name [replaced by inputs]
+  - DB_PASS: database pass [replaced by inputs]
+  - DB_USER: database username [replaced by inputs]
   - DOCKER_PASSWORD: docker password/token for pull containers
   - DOCKER_USERNAME: docker username
   - DO_S3_ID: digital ocena S3 bucket access key
