@@ -29,3 +29,8 @@
       tags: ["render_compose"]
     - role: deploy_stack
       tags: ["deploy_stack", "docker"]
+
+  post_tasks:
+    - name: Host IP addres
+      debug:
+        msg: "{{ ansible_default_ipv4.address }}"

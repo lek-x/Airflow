@@ -153,13 +153,13 @@ jobs:
         id: apply
         run: make apply
 
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: artifacts
-          path: |
-            ./ansible/key.pem
-            ./ansible/inventory
+      # - name: Archive production artifacts
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: artifacts
+      #    path: |
+      #      ./ansible/key.pem
+      #      ./ansible/inventory
 
   Run-Ansible:
     needs: [Run-terraform]
