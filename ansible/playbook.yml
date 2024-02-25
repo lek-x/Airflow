@@ -31,6 +31,6 @@
       tags: ["deploy_stack", "docker"]
 
   post_tasks:
-    - name: Host IP addres
+    - name: Host IP address
       debug:
         msg: "{{ ansible_default_ipv4.address }}"
