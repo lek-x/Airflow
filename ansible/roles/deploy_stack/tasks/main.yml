@@ -121,13 +121,6 @@
     host: localhost
   tags: ["clean", "redeploy", "get_ip"]
 
-# - name: Show IPs
-#  debug:
-#    msg: |
-#     Airflow Web - "{{ airflow }}"
-#  tags: ["get_ip", "redeploy", "never"]
-#  when: not ansible_check_mode
-
 - name: Template seed file
   template:
     src: dbseed.sql.j2
@@ -136,10 +129,6 @@
     owner: "{{ username }}"
     group: "{{ groupname }}"
   no_log: true
-
-- name: Get DB name
-  set_fact:
-    db_name: "{{ lookup('ansible.builtin.env', 'DB_NAME') }}"
 
 - name: Seeding db
   command: "docker exec postgres psql -d {{ db_name }} -U {{ db_user }} -f /var/lib/postgresql/data/dbseed.sql"
@@ -151,13 +140,6 @@
     path: "{{ db_path }}/dbseed.sql"
     state: absent
   when: seeding.rc != 2
-
-# - name: Show IPs
-#   debug:
-#     msg: |
-#      Airflow Web - "{{ airflow_webserver['container']['NetworkSettings']['Networks']['main']['IPAddress'] }}"
-#   tags: ["get_ip", "redeploy"]
-#   when: not ansible_check_mode
 
 - name: Wait when GUI will responce
   uri:

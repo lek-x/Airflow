@@ -18,4 +18,4 @@ use_default_rules: true
 verbosity: 1
 warn_list:
   - internal-error  # Unexpected internal error
-  - var-naming  # All variables should be named using only lowercase and underscores
+  # - var-naming  # All variables should be named using only lowercase and underscores

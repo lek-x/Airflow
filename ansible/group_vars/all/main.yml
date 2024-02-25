@@ -2,8 +2,8 @@
 install_path: /opt/airflow
 data_path: "{{ install_path }}/data"
 db_path: "{{ install_path }}/db"
-AIRFLOW_UID: 50000
-AIRFLOW_GUID: 1001
+AIRFLOW_UID: 50000 # noqa var-naming
+AIRFLOW_GUID: 1001 # noqa var-naming
 username:  airflow
 groupname: airflow
 

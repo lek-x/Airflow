@@ -6,7 +6,7 @@
 
 - name: Update System cache [Common, Debian family]
   apt:
-    upgrade: true
+    # upgrade: true
     update_cache: true
     cache_valid_time: 3600
   register: updatest
@@ -18,13 +18,20 @@
   command: 'dpkg --configure -a'
   register: dpkgst
   changed_when: dpkgst.rc != 2
-  when: updatest.rc != 0
-  
+  when: updatest.failed
+
+- name: Find stuck apt procs
+  command: pgrep apt
+  register: aptprocs
+  ignore_errors: true
+  changed_when: false
+
 - name: Kill apt
   command: killall apt apt-get
   register: kill
   changed_when: kill.rc != 2
   ignore_errors: true
+  when: aptprocs.rc = 0
 
 - name: Install packages
   apt:
