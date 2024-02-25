@@ -6,9 +6,9 @@
 
 - name: Update System cache [Common, Debian family]
   apt:
-    # upgrade: true
+    upgrade: true
     update_cache: true
-    cache_valid_time: 3600
+    cache_valid_time: 86400
   register: updatest
   ignore_errors: true
   tags:
