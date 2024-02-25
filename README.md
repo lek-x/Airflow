@@ -20,6 +20,7 @@ This code  deploys VM in Digital Ocean provider, and setups Airflow Server with 
     - environment
     - size of droplet
     - region
+    - etc
 ```
 
 2. **Destroy flow:**
@@ -108,18 +109,17 @@ image:
 - rocky=rockylinux-9-x64
 
 ## GitHub Actions Secrets:
-  - AIRFLOW_WWW_PASS: airflow user pass [replaced by inputs]
-  - AIRFLOW_WWW_USER: airflow user pass [replaced by inputs]
-  - CONN_TYPE: connetction type for db postgres/mysql [replaced by inputs]
-  - DB_NAME: database name [replaced by inputs]
-  - DB_PASS: database pass [replaced by inputs]
-  - DB_USER: database username [replaced by inputs]
-  - DOCKER_PASSWORD: docker password/token for pull containers
+  - AIRFLOW_WWW_PASS: airflow user pass **[replaced by inputs]**
+  - AIRFLOW_WWW_USER: airflow user pass **[replaced by inputs]**
+  - CONN_TYPE: connetction type for db postgres/mysql **[replaced by inputs]**
+  - DB_NAME: database name **[replaced by inputs]**
+  - DB_PASS: database pass **[replaced by inputs]**
+  - DB_USER: database username **[replaced by inputs]**
+  - DOCKER_PASSWORD: docker password/token for pull/push containers
   - DOCKER_USERNAME: docker username
   - DO_S3_ID: digital ocena S3 bucket access key
   - DO_S3_KEY: digital ocena S3 bucket secret key
   - DO_TOKEN: digital ocean account token
-  - PACKAGES_TOKEN: TBD
   - WORK_DB_HOST: external db hostname, if you need to connect airflow to the external DB
   - WORK_DB_USER: external db user
   - WORK_DB_PASS: external db pass
